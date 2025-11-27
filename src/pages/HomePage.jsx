@@ -23,6 +23,7 @@ import Orb from "../components/Orb";
 import { OrbitingCircle } from "../components/ui/orbit";
 import { IconCloudDemo } from "../components/ui/iccloud";
 import AboutUs from "../components/about";
+import { DottedMap } from "../components/ui/dotted-map";
 const HomePage = () => {
   const texts = [
     "Mobile Development",
@@ -52,10 +53,13 @@ const HomePage = () => {
       </div>
       <BentoGrid />
       <AboutUs />
+      <div className="relative h-[400px] w-full overflow-hidden">
+        <DottedMap />
+      </div>
       <Faq />
+
       <Newsletter />
       {/* <CodeType /> */}
-      <IconCloudDemo />
       <Footer />
     </div>
   );
