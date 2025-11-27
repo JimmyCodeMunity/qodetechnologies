@@ -16,6 +16,13 @@ import Footer from "../components/sections/Footer";
 import { Faq } from "../components/sections/Faq";
 import Workflow from "../components/WorkFlow";
 import Testimonials from "../components/Testimonials";
+import BentoGrid from "../components/kokonutui/bento-grid";
+import { CodeType } from "../components/CodeType";
+import { OrbitingCircles } from "../components/orbiting-circles";
+import Orb from "../components/Orb";
+import { OrbitingCircle } from "../components/ui/orbit";
+import { IconCloudDemo } from "../components/ui/iccloud";
+import AboutUs from "../components/about";
 const HomePage = () => {
   const texts = [
     "Mobile Development",
@@ -43,8 +50,12 @@ const HomePage = () => {
           scrollEase={0.02}
         />
       </div>
+      <BentoGrid />
+      <AboutUs />
       <Faq />
       <Newsletter />
+      {/* <CodeType /> */}
+      <IconCloudDemo />
       <Footer />
     </div>
   );
