@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ExternalLink, Layers, Globe, Code2, Truck, Brain, Building2 } from "lucide-react";
+import { ArrowRight, ExternalLink, Layers, Globe, Code2, Truck, Brain, Building2, ShoppingBag, Fingerprint } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/sections/Footer";
 import WhatsAppButton from "../components/WhatsAppButton";
@@ -101,6 +101,30 @@ const projects = [
     gradient: "from-yellow-500/20 to-amber-500/10",
     accent: "yellow",
   },
+  {
+    id: "broddies-collection",
+    name: "Broddies Collection",
+    url: "https://broddiescollection.com/",
+    icon: <ShoppingBag size={28} className="text-pink-400" />,
+    tagline: "Fashion & lifestyle e-commerce",
+    description:
+      "A curated online store for fashion and lifestyle products with seamless checkout, wishlists, and a clean modern storefront experience.",
+    tags: ["Next.js", "Stripe", "Tailwind", "PostgreSQL"],
+    gradient: "from-pink-500/20 to-rose-500/10",
+    accent: "pink",
+  },
+  {
+    id: "identity-ea",
+    name: "Identity EA",
+    url: "https://identityea.com/",
+    icon: <Fingerprint size={28} className="text-cyan-400" />,
+    tagline: "Identity verification & KYC platform",
+    description:
+      "A secure identity verification platform enabling fast KYC checks, document authentication, and fraud detection for financial institutions.",
+    tags: ["React", "Node.js", "MongoDB", "AWS"],
+    gradient: "from-cyan-500/20 to-teal-500/10",
+    accent: "cyan",
+  },
 ];
 
 const accentText = {
@@ -109,6 +133,8 @@ const accentText = {
   lime: "text-lime-400 group-hover:text-lime-300",
   blue: "text-blue-400 group-hover:text-blue-300",
   yellow: "text-yellow-400 group-hover:text-yellow-300",
+  pink: "text-pink-400 group-hover:text-pink-300",
+  cyan: "text-cyan-400 group-hover:text-cyan-300",
 };
 
 const accentBorder = {
@@ -117,6 +143,8 @@ const accentBorder = {
   lime: "group-hover:border-lime-500/40",
   blue: "group-hover:border-blue-500/40",
   yellow: "group-hover:border-yellow-500/40",
+  pink: "group-hover:border-pink-500/40",
+  cyan: "group-hover:border-cyan-500/40",
 };
 
 const accentBg = {
@@ -125,6 +153,8 @@ const accentBg = {
   lime: "bg-lime-500/10 text-lime-400 border-lime-500/20",
   blue: "bg-blue-500/10 text-blue-400 border-blue-500/20",
   yellow: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
+  pink: "bg-pink-500/10 text-pink-400 border-pink-500/20",
+  cyan: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
 };
 
 const ProjectsPage = () => {
