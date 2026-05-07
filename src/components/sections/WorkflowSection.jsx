@@ -114,6 +114,7 @@ const WorkflowSection = () => {
                       {step.desc}
                     </p>
                   </div>
+                  {/* styled */}
 
                   {/* Empty spacer for opposite side */}
                   <div
