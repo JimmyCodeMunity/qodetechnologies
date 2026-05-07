@@ -490,9 +490,9 @@ function AIInput_Voice() {
               style={
                 submitted && isClient
                   ? {
-                      height: `${20 + Math.random() * 80}%`,
-                      animationDelay: `${i * 0.05}s`,
-                    }
+                    height: `${20 + Math.random() * 80}%`,
+                    animationDelay: `${i * 0.05}s`,
+                  }
                   : undefined
               }
             />
@@ -640,7 +640,7 @@ const BentoCard = ({ item }) => {
 export default function BentoGrid() {
   return (
     <section className="relative py-24 sm:py-32 bg-black dark:bg-black overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Bento Grid */}
         <motion.div
           initial="hidden"
@@ -663,7 +663,7 @@ export default function BentoGrid() {
             </motion.div>
             <motion.div
               variants={fadeInUp}
-              //   className="md:col-span-1 rounded-xl overflow-hidden bg-gradient-to-b from-neutral-50/80 to-neutral-50 dark:from-neutral-900/80 dark:to-neutral-900 border border-neutral-200/50 dark:border-neutral-800/50 hover:border-neutral-400/30 dark:hover:border-neutral-600/30 hover:shadow-lg hover:shadow-neutral-200/20 dark:hover:shadow-neutral-900/20 transition-all duration-300"
+            //   className="md:col-span-1 rounded-xl overflow-hidden bg-gradient-to-b from-neutral-50/80 to-neutral-50 dark:from-neutral-900/80 dark:to-neutral-900 border border-neutral-200/50 dark:border-neutral-800/50 hover:border-neutral-400/30 dark:hover:border-neutral-600/30 hover:shadow-lg hover:shadow-neutral-200/20 dark:hover:shadow-neutral-900/20 transition-all duration-300"
             >
               <SpotlightCard
                 className="custom-spotlight-  w-full space-y-5 p-4 border-1 border-neutral-600"
@@ -672,7 +672,7 @@ export default function BentoGrid() {
                 <div className="p-5">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-xl font-semibold tracking-tight text-white">
-                      Variety Of Programming Laguages
+                      Variety Of Programming Languages
                     </h3>
                   </div>
                   {/* <p className="text-sm text-neutral-400 dark:text-neutral-400 tracking-tight mb-4">

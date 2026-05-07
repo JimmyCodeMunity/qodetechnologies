@@ -14,12 +14,10 @@ const Languages = () => {
       <div className="w-full flex flex-col justify-center items-start p-4 space-y-6">
         <div className="max-w-[80%] space-y-6">
           <h1 className="text-white text-3xl font-semibold">
-            Still using the old methods?
+            Future-proof your tech stack.
           </h1>
           <p className="text-neutral-500">
-            We are a team of experts who are always ready to help you with your
-            transition from analogue ways of doing things to a Digital
-            Organization.
+            Our engineers specialize in modern languages and frameworks — from React and Next.js to Python, Go, and AI/ML. We modernize legacy systems and build scalable architectures that grow with you.
           </p>
           <AnimatedTooltipPreview />
           <ServiceDialog

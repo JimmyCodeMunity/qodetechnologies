@@ -20,17 +20,13 @@ export default function AboutUs() {
           </h1>
           <div className="w-24 h-[3px] rounded-full bg-gradient-to-r from-lime-600 to-[#DDD9FF]"></div>
           <p className="mt-8 text-white">
-            PrebuiltUI helps you build faster by transforming your design vision
-            into fully functional, production-ready UI components.{" "}
+            Qode is a forward-thinking technology company that partners with businesses to design, build, and scale digital products. From MVPs to enterprise platforms, we turn ambitious ideas into reality.
           </p>
           <p className="mt-4 text-white">
-            Whether you're launching a SaaS app, landing page, or dashboard, our
-            collection of Tailwind CSS components is crafted to boost your
-            development speed and improve user experience.
+            Our team of engineers, designers, and AI specialists work across the full stack — delivering web apps, mobile experiences, cloud infrastructure, and intelligent automation that drives measurable business outcomes.
           </p>
           <p className="mt-4 text-white">
-            From UI design systems to automation-ready layouts, PrebuiltUI
-            empowers you to build beautifully and scale effortlessly.
+            Whether you are a startup looking to disrupt markets or an enterprise modernizing legacy systems, Qode provides the expertise, velocity, and vision to help you lead in a digital-first world.
           </p>
           <button className="flex items-center gap-2 mt-8 hover:-translate-y-0.5 transition bg-gradient-to-r from-lime-600 to-[#8A7DFF] py-3 px-8 rounded-full text-white">
             <span>Read more</span>

@@ -14,31 +14,33 @@ const Hero = () => {
   };
   const items = [
     {
-      label: "About",
+      label: "Company",
       bgColor: "#0D0716",
       textColor: "#fff",
       links: [
-        { label: "Company", ariaLabel: "About Company" },
-        { label: "Careers", ariaLabel: "About Careers" },
+        { label: "About Us", href: "/about", ariaLabel: "About Qode" },
+        { label: "Our Services", href: "/services", ariaLabel: "Our Services" },
+        { label: "Blog", href: "/blog", ariaLabel: "Qode Blog" },
       ],
     },
     {
-      label: "Projects",
+      label: "Services",
       bgColor: "#170D27",
       textColor: "#fff",
       links: [
-        { label: "Featured", ariaLabel: "Featured Projects" },
-        { label: "Case Studies", ariaLabel: "Project Case Studies" },
+        { label: "Web Development", href: "/services", ariaLabel: "Web Development" },
+        { label: "Mobile Development", href: "/services", ariaLabel: "Mobile Development" },
+        { label: "AI & Automation", href: "/services", ariaLabel: "AI Automation" },
       ],
     },
     {
-      label: "Contact",
+      label: "Connect",
       bgColor: "#271E37",
       textColor: "#fff",
       links: [
-        { label: "Email", ariaLabel: "Email us" },
-        { label: "Twitter", ariaLabel: "Twitter" },
-        { label: "LinkedIn", ariaLabel: "LinkedIn" },
+        { label: "Contact Us", href: "/about", ariaLabel: "Contact Qode" },
+        { label: "Twitter / X", href: "https://twitter.com", ariaLabel: "Twitter" },
+        { label: "LinkedIn", href: "https://linkedin.com", ariaLabel: "LinkedIn" },
       ],
     },
   ];
@@ -148,8 +150,7 @@ const Hero = () => {
             </span>
           </h1>
           <p className="max-w-sm mx-auto text-center text-base font-normal leading-7 text-gray-500 mb-9">
-            Invest intelligently and discover a better way to manage your entire
-            wealth easily.
+            We engineer powerful digital solutions — from AI-driven apps to cloud infrastructure — that accelerate growth and future-proof your business.
           </p>
           <div className="text-center text-white mb-5">
             <TrueFocus

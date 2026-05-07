@@ -19,46 +19,35 @@ export function Faq() {
           defaultValue="item-1"
         >
           <AccordionItem value="item-1">
-            <AccordionTrigger>Product Information</AccordionTrigger>
+            <AccordionTrigger>What services does Qode offer?</AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
               <p>
-                Our flagship product combines cutting-edge technology with sleek
-                design. Built with premium materials, it offers unparalleled
-                performance and reliability.
+                Qode delivers end-to-end technology solutions including custom software development, web and mobile app development, AI & automation, cloud infrastructure, and DevOps services.
               </p>
               <p>
-                Key features include advanced processing capabilities, and an
-                intuitive user interface designed for both beginners and
-                experts.
+                We also offer training programs and mentorship in modern programming stacks — React, Node.js, Python, AI/ML, and cloud-native development.
               </p>
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
-            <AccordionTrigger>Shipping Details</AccordionTrigger>
+            <AccordionTrigger>How does the development process work?</AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
               <p>
-                We offer worldwide shipping through trusted courier partners.
-                Standard delivery takes 3-5 business days, while express
-                shipping ensures delivery within 1-2 business days.
+                We follow an agile methodology with two-week sprints, daily standups, and transparent progress tracking. From discovery and design to development, testing, and deployment, you are involved at every step.
               </p>
               <p>
-                All orders are carefully packaged and fully insured. Track your
-                shipment in real-time through our dedicated tracking portal.
+                Typical projects kick off within 48 hours of engagement confirmation, with a dedicated project manager assigned to ensure seamless delivery.
               </p>
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-3">
-            <AccordionTrigger>Return Policy</AccordionTrigger>
+            <AccordionTrigger>Do you provide post-launch support?</AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
               <p>
-                We stand behind our products with a comprehensive 30-day return
-                policy. If you&apos;re not completely satisfied, simply return
-                the item in its original condition.
+                Absolutely. We offer maintenance packages, performance monitoring, security updates, and feature enhancements long after launch. Your success is our priority.
               </p>
               <p>
-                Our hassle-free return process includes free return shipping and
-                full refunds processed within 48 hours of receiving the returned
-                item.
+                Our SLAs guarantee fast response times, and our team is available across multiple time zones to ensure your systems run flawlessly around the clock.
               </p>
             </AccordionContent>
           </AccordionItem>

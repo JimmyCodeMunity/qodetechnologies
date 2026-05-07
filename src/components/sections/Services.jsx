@@ -14,7 +14,7 @@ import {
 
 const Services = () => {
   return (
-    <div className="w-full h-full sm:px-16 px-6 py-6 mx-auto">
+    <div className="w-full h-full sm:px-6 sm:max-w-7xl px-6 py-6 mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <SpotlightCard
           className="custom-spotlight- h-[300px] w-full space-y-5 p-4 border-1 border-neutral-600"
@@ -25,7 +25,7 @@ const Services = () => {
             Software Development
           </h1>
           <p className="text-white text-sm">
-            We build custom software solutions for businesses of all sizes.
+            End-to-end custom software engineered for scale, security, and performance using modern architectures.
           </p>
         </SpotlightCard>
         <SpotlightCard
@@ -35,8 +35,7 @@ const Services = () => {
           <SiHtml5 size={40} color="white" />
           <h1 className="text-white text-2xl font-semibold">Web Development</h1>
           <p className="text-white text-sm">
-            {/* web development context */}
-            We build custom software solutions for businesses of all sizes.
+            Blazing-fast, responsive web apps and platforms built with cutting-edge frameworks and best practices.
           </p>
         </SpotlightCard>
         <SpotlightCard
@@ -52,7 +51,7 @@ const Services = () => {
             Mobile Development
           </h1>
           <p className="text-white text-sm">
-            We build custom mobile applications (ios || Android).
+            Native and cross-platform mobile experiences designed for engagement, performance, and growth.
           </p>
         </SpotlightCard>
         <SpotlightCard
@@ -60,9 +59,9 @@ const Services = () => {
           spotlightColor="rgba(0, 229, 255, 0.2)"
         >
           <SiAdobeillustrator size={40} color="white" />
-          <h1 className="text-white text-2xl font-semibold">Ai & Automation</h1>
+          <h1 className="text-white text-2xl font-semibold">AI & Automation</h1>
           <p className="text-white text-sm">
-            We build custom mobile applications (ios || Android).
+            Smart AI agents, LLM integrations, and workflow automation that reduce costs and unlock new capabilities.
           </p>
         </SpotlightCard>
         <SpotlightCard
@@ -76,7 +75,7 @@ const Services = () => {
           </div>
           <h1 className="text-white text-2xl font-semibold">App Deployment</h1>
           <p className="text-white text-sm">
-            We build custom mobile applications (ios || Android).
+            Seamless CI/CD pipelines, cloud deployment, and store publishing so your product ships flawlessly.
           </p>
         </SpotlightCard>
         <SpotlightCard
@@ -88,7 +87,7 @@ const Services = () => {
             Learn Programming
           </h1>
           <p className="text-white text-sm">
-            We build custom mobile applications (ios || Android).
+            Hands-on training and mentorship in modern stacks — React, Node, Python, AI/ML, and cloud-native development.
           </p>
         </SpotlightCard>
       </div>

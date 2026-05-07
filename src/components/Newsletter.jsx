@@ -22,16 +22,16 @@ const Newsletter = () => {
         /> */}
       </div>
       <div className="z-[10] flex flex-col justify-center items-center space-y-4">
-        <h1 className="text-white text-xl font-semibold">Newsletter</h1>
+        <h1 className="text-white text-xl font-semibold">Stay Ahead</h1>
 
         <p className="text-3xl font-semibold text-center">
-          Subscribe to our newsletter
+          Get the latest insights on tech, AI, and digital transformation.
         </p>
         <div className="md:w-[600px] w-80 flex md:flex-row flex-col items-center justify-center md:space-x-4 space-y-3">
           <Input
             type="email"
             className="md:py-8 py-4 w-full rounded-full"
-            placeholder="Email"
+            placeholder="Enter your email address"
           />
           <Button className="md:p-8 py-4 rounded-full bg-white text-black">
             Subscribe

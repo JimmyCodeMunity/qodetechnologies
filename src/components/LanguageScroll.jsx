@@ -9,7 +9,7 @@ const LanguageScroll = () => {
       content: (
         <div className="flex flex-row items-center space-x-3">
           <SiHomeassistant color="orange" size={25} />
-          <p className="text-orange-500">Simple</p>
+          <p className="text-orange-500">Scalable</p>
         </div>
       ),
     },
@@ -17,7 +17,7 @@ const LanguageScroll = () => {
       content: (
         <div className="flex flex-row items-center space-x-3">
           <SiHomeassistant color="white" size={25} />
-          <p className="text-white">Simple</p>
+          <p className="text-white">Secure</p>
         </div>
       ),
     },
@@ -33,7 +33,7 @@ const LanguageScroll = () => {
       content: (
         <div className="flex flex-row items-center space-x-3">
           <SiHomeassistant color="orange" size={25} />
-          <p className="text-orange-500">Simple</p>
+          <p className="text-orange-500">Scalable</p>
         </div>
       ),
     },
@@ -41,7 +41,7 @@ const LanguageScroll = () => {
       content: (
         <div className="flex flex-row items-center space-x-3">
           <SiHomeassistant color="white" size={25} />
-          <p className="text-white">Simple</p>
+          <p className="text-white">Secure</p>
         </div>
       ),
     },
@@ -49,7 +49,7 @@ const LanguageScroll = () => {
       content: (
         <div className="flex flex-row items-center space-x-3">
           <SiHomeassistant color="#84CC16" size={25} />
-          <p className="text-lime-500">Simple</p>
+          <p className="text-lime-500">Innovative</p>
         </div>
       ),
     },
