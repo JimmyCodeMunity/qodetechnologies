@@ -59,7 +59,7 @@ const bentoItems = [
     href: "#",
     feature: "typing",
     typingText:
-      "const createAgent = async () => {\n  const agent = new AIAgent({\n    model: 'gpt-4-turbo',\n    tools: [codeAnalysis, dataProcessing],\n    memory: new ConversationalMemory()\n  });\n\n  // Train on domain knowledge\n  await agent.learn(domainData);\n\n  return agent;\n};",
+      "$ qode init --project AI-Agent-Platform\n\n> Initializing Qode environment...\n> Loading modules: [LLM, RAG, VectorStore]\n> Connecting to knowledge base...\n\n$ qode deploy --target production\n\n> Building optimized bundle...\n> Deploying to edge nodes...\n> Agent live at: agents.qodenow.com\n> Status: ACTIVE | Latency: 45ms\n\n$ qode monitor --metrics all\n\n> Uptime: 99.97%\n> Requests: 1.2M/day\n> Cost saved: $8,400/mo",
     size: "md",
     className: "col-span-2 row-span-1 col-start-1 col-end-3",
   },

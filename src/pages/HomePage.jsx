@@ -3,9 +3,11 @@ import Languages from "../components/sections/Languages";
 import Services from "../components/sections/Services";
 import MobileDevAd from "../components/sections/MobileDevAd";
 import WebDevAd from "../components/sections/WebDevAd";
+import ProjectsSection from "../components/sections/ProjectsSection";
 import WorkflowSection from "../components/sections/WorkflowSection";
 import SplashCursor from "../components/ui/SplashCursor";
 import Newsletter from "../components/Newsletter";
+import ContactSection from "../components/sections/ContactSection";
 import Footer from "../components/sections/Footer";
 import { Faq } from "../components/sections/Faq";
 import BentoGrid from "../components/kokonutui/bento-grid";
@@ -23,6 +25,7 @@ const HomePage = () => {
       <WorkflowSection />
       <MobileDevAd />
       <WebDevAd />
+      <ProjectsSection />
       {/* <MagicBento />
       <Testimonials /> */}
       {/* <Companies /> */}
@@ -35,6 +38,7 @@ const HomePage = () => {
       <Faq />
 
       <Newsletter />
+      <ContactSection />
       {/* <CodeType /> */}
       <Footer />
       <WhatsAppButton />
