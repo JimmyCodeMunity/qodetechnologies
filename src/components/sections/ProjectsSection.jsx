@@ -74,7 +74,7 @@ const ProjectsSection = () => {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-lime-500/30 bg-lime-500/10 mb-6">
             <span className="text-xs font-medium text-lime-500 uppercase tracking-wider">Portfolio</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-orange-500">
             Recent <span className="text-lime-500">Shipments</span>
           </h2>
           <p className="text-neutral-400 text-lg max-w-2xl mx-auto">

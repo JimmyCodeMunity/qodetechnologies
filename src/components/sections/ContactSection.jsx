@@ -68,7 +68,7 @@ const ContactSection = () => {
             <MessageSquare size={14} className="text-orange-500" />
             <span className="text-xs font-medium text-orange-500 uppercase tracking-wider">Get In Touch</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-orange-500">
             Let Us <span className="text-lime-500">Build</span> Together
           </h2>
           <p className="text-neutral-400 text-lg max-w-2xl mx-auto">

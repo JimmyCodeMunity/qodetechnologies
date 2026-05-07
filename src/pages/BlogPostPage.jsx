@@ -184,6 +184,7 @@ const BlogPostPage = () => {
         { label: "Our Services", href: "/services", ariaLabel: "Our Services" },
         { label: "Blog", href: "/blog", ariaLabel: "Qode Blog" },
         { label: "Projects", href: "/projects", ariaLabel: "Our Projects" },
+        { label: "Dashboard", href: "/dashboard", ariaLabel: "User Dashboard" },
       ],
     },
     {
