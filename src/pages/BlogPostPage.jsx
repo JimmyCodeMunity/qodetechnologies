@@ -5,6 +5,7 @@ import { ArrowLeft, Clock, Calendar, Tag, Share2, Twitter } from "lucide-react";
 import { blogPosts } from "./BlogPage";
 import Footer from "../components/sections/Footer";
 import ServiceDialog from "../components/ui/ServiceDialog";
+import Navbar from "../components/Navbar";
 
 const fallbackContent = {
   "why-we-chose-nextjs": `When we started building enterprise applications for clients, the performance expectations were non-negotiable. Users expect instant page loads, seamless interactions, and SEO that dominates search rankings. After evaluating multiple frameworks, Next.js emerged as the clear winner — not just for its popularity, but for its architecture.
@@ -172,16 +173,57 @@ const BlogPostPage = () => {
     );
   }
 
+  const navItems = [
+    {
+      label: "Company",
+      bgColor: "#0D0716",
+      textColor: "#fff",
+      links: [
+        { label: "About Us", href: "/about", ariaLabel: "About Qode" },
+        { label: "Our Services", href: "/services", ariaLabel: "Our Services" },
+        { label: "Blog", href: "/blog", ariaLabel: "Qode Blog" },
+      ],
+    },
+    {
+      label: "Services",
+      bgColor: "#170D27",
+      textColor: "#fff",
+      links: [
+        { label: "Web Development", href: "/services", ariaLabel: "Web Development" },
+        { label: "Mobile Development", href: "/services", ariaLabel: "Mobile Development" },
+        { label: "AI & Automation", href: "/services", ariaLabel: "AI Automation" },
+      ],
+    },
+    {
+      label: "Connect",
+      bgColor: "#271E37",
+      textColor: "#fff",
+      links: [
+        { label: "Contact Us", href: "/about", ariaLabel: "Contact Qode" },
+        { label: "Twitter / X", href: "https://twitter.com", ariaLabel: "Twitter" },
+        { label: "LinkedIn", href: "https://linkedin.com", ariaLabel: "LinkedIn" },
+      ],
+    },
+  ];
+
   const content = fallbackContent[slug] || post.excerpt;
   const related = blogPosts.filter((p) => p.slug !== slug).slice(0, 3);
 
   return (
     <div className="bg-black min-h-screen text-white">
+      <Navbar
+        logoAlt="Qode Logo"
+        items={navItems}
+        baseColor="#fff"
+        buttonBgColor="#84CC16"
+        buttonTextColor="#000"
+      />
       {/* Hero Image */}
       <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
         <img
           src={post.image}
           alt={post.title}
+          loading="eager"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
@@ -337,6 +379,7 @@ const BlogPostPage = () => {
                     <img
                       src={rp.image}
                       alt={rp.title}
+                      loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>

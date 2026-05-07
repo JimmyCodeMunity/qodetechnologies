@@ -168,26 +168,30 @@ const Navbar = ({
           </div>
 
           <div className="logo-container flex items-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 order-1 md:order-none">
-            <img
-              src={"/images/logo.png"}
-              alt={logoAlt}
-              className="logo h-36 w-36"
-            />
+            <Link to="/">
+              <img
+                src={"/images/logo.png"}
+                alt={logoAlt}
+                className="logo h-36 w-36 cursor-pointer"
+              />
+            </Link>
           </div>
 
-          <Button
-            type="button"
-            className="bg-lime-500 card-nav-cta-button hidden md:inline-flex border-0 rounded-[calc(0.75rem-0.2rem)] px-4 h-full font-medium cursor-pointer transition-colors duration-300"
-            style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
-          >
-            Get Started
-          </Button>
+          <Link to="/services">
+            <Button
+              type="button"
+              className="bg-lime-500 card-nav-cta-button hidden md:inline-flex border-0 rounded-[calc(0.75rem-0.2rem)] px-4 h-full font-medium cursor-pointer transition-colors duration-300"
+              style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
+            >
+              Get Started
+            </Button>
+          </Link>
         </div>
 
         <div
           className={`card-nav-content absolute left-0 right-0 top-[60px] bottom-0 p-2 flex flex-col items-stretch gap-2 justify-start z-[1] ${isExpanded
-              ? "visible pointer-events-auto"
-              : "invisible pointer-events-none"
+            ? "visible pointer-events-auto"
+            : "invisible pointer-events-none"
             } md:flex-row md:items-end md:gap-[12px]`}
           aria-hidden={!isExpanded}
         >
@@ -202,20 +206,40 @@ const Navbar = ({
                 {item.label}
               </div>
               <div className="nav-card-links mt-auto flex flex-col gap-[2px]">
-                {item.links?.map((lnk, i) => (
-                  <a
-                    key={`${lnk.label}-${i}`}
-                    className="nav-card-link inline-flex items-center gap-[6px] no-underline cursor-pointer transition-opacity duration-300 hover:opacity-75 text-[15px] md:text-[16px]"
-                    href={lnk.href}
-                    aria-label={lnk.ariaLabel}
-                  >
-                    <GoArrowUpRight
-                      className="nav-card-link-icon shrink-0"
-                      aria-hidden="true"
-                    />
-                    {lnk.label}
-                  </a>
-                ))}
+                {item.links?.map((lnk, i) => {
+                  const isInternal = lnk.href?.startsWith("/");
+                  const sharedClasses =
+                    "nav-card-link inline-flex items-center gap-[6px] no-underline cursor-pointer transition-opacity duration-300 hover:opacity-75 text-[15px] md:text-[16px]";
+                  return isInternal ? (
+                    <Link
+                      key={`${lnk.label}-${i}`}
+                      className={sharedClasses}
+                      to={lnk.href}
+                      aria-label={lnk.ariaLabel}
+                    >
+                      <GoArrowUpRight
+                        className="nav-card-link-icon shrink-0"
+                        aria-hidden="true"
+                      />
+                      {lnk.label}
+                    </Link>
+                  ) : (
+                    <a
+                      key={`${lnk.label}-${i}`}
+                      className={sharedClasses}
+                      href={lnk.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={lnk.ariaLabel}
+                    >
+                      <GoArrowUpRight
+                        className="nav-card-link-icon shrink-0"
+                        aria-hidden="true"
+                      />
+                      {lnk.label}
+                    </a>
+                  );
+                })}
               </div>
             </div>
           ))}

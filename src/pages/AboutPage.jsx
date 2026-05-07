@@ -15,6 +15,7 @@ import {
 import ServiceDialog from "../components/ui/ServiceDialog";
 import { AnimatedTooltipPreview } from "../components/ui/TeamTooltip";
 import Footer from "../components/sections/Footer";
+import Navbar from "../components/Navbar";
 
 const stats = [
   { value: "150+", label: "Projects Delivered" },
@@ -54,9 +55,49 @@ const milestones = [
   { year: "2024", title: "100th Project", desc: "Celebrated our 100th shipped product — from MVPs to enterprise platforms." },
 ];
 
+const navItems = [
+  {
+    label: "Company",
+    bgColor: "#0D0716",
+    textColor: "#fff",
+    links: [
+      { label: "About Us", href: "/about", ariaLabel: "About Qode" },
+      { label: "Our Services", href: "/services", ariaLabel: "Our Services" },
+      { label: "Blog", href: "/blog", ariaLabel: "Qode Blog" },
+    ],
+  },
+  {
+    label: "Services",
+    bgColor: "#170D27",
+    textColor: "#fff",
+    links: [
+      { label: "Web Development", href: "/services", ariaLabel: "Web Development" },
+      { label: "Mobile Development", href: "/services", ariaLabel: "Mobile Development" },
+      { label: "AI & Automation", href: "/services", ariaLabel: "AI Automation" },
+    ],
+  },
+  {
+    label: "Connect",
+    bgColor: "#271E37",
+    textColor: "#fff",
+    links: [
+      { label: "Contact Us", href: "/about", ariaLabel: "Contact Qode" },
+      { label: "Twitter / X", href: "https://twitter.com", ariaLabel: "Twitter" },
+      { label: "LinkedIn", href: "https://linkedin.com", ariaLabel: "LinkedIn" },
+    ],
+  },
+];
+
 const AboutPage = () => {
   return (
     <div className="bg-black min-h-screen text-white">
+      <Navbar
+        logoAlt="Qode Logo"
+        items={navItems}
+        baseColor="#fff"
+        buttonBgColor="#84CC16"
+        buttonTextColor="#000"
+      />
       {/* Hero */}
       <section className="relative pt-32 pb-20 px-4 sm:px-6 overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-30">
@@ -290,11 +331,10 @@ const AboutPage = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 * i, duration: 0.5 }}
-                className={`relative flex items-start gap-8 mb-12 ${
-                  i % 2 === 0
-                    ? "md:flex-row"
-                    : "md:flex-row-reverse"
-                }`}
+                className={`relative flex items-start gap-8 mb-12 ${i % 2 === 0
+                  ? "md:flex-row"
+                  : "md:flex-row-reverse"
+                  }`}
               >
                 <div className="hidden md:block md:w-1/2" />
                 <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-lime-500 border-4 border-black z-10 mt-1" />

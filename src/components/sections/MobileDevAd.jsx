@@ -157,7 +157,7 @@ const MobileDevAd = () => {
                   }}
                   className="w-full py-3 rounded-xl bg-lime-500 text-black font-semibold text-center text-sm"
                 >
-                  Launch App
+                  Launch My App
                 </motion.div>
               </div>
 

@@ -217,7 +217,7 @@ export const LogoLoop = memo(({
           'inline-flex items-center',
           'motion-reduce:transition-none',
           scaleOnHover &&
-            'transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/item:scale-120'
+          'transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/item:scale-120'
         )}
         aria-hidden={!!item.href && !item.ariaLabel}>
         {item.node}
@@ -230,7 +230,7 @@ export const LogoLoop = memo(({
           '[image-rendering:-webkit-optimize-contrast]',
           'motion-reduce:transition-none',
           scaleOnHover &&
-            'transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/item:scale-120'
+          'transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/item:scale-120'
         )}
         src={item.src}
         srcSet={item.srcSet}

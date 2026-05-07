@@ -3,6 +3,40 @@ import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Clock, Calendar, Tag } from "lucide-react";
 import Footer from "../components/sections/Footer";
+import Navbar from "../components/Navbar";
+
+const navItems = [
+  {
+    label: "Company",
+    bgColor: "#0D0716",
+    textColor: "#fff",
+    links: [
+      { label: "About Us", href: "/about", ariaLabel: "About Qode" },
+      { label: "Our Services", href: "/services", ariaLabel: "Our Services" },
+      { label: "Blog", href: "/blog", ariaLabel: "Qode Blog" },
+    ],
+  },
+  {
+    label: "Services",
+    bgColor: "#170D27",
+    textColor: "#fff",
+    links: [
+      { label: "Web Development", href: "/services", ariaLabel: "Web Development" },
+      { label: "Mobile Development", href: "/services", ariaLabel: "Mobile Development" },
+      { label: "AI & Automation", href: "/services", ariaLabel: "AI Automation" },
+    ],
+  },
+  {
+    label: "Connect",
+    bgColor: "#271E37",
+    textColor: "#fff",
+    links: [
+      { label: "Contact Us", href: "/about", ariaLabel: "Contact Qode" },
+      { label: "Twitter / X", href: "https://twitter.com", ariaLabel: "Twitter" },
+      { label: "LinkedIn", href: "https://linkedin.com", ariaLabel: "LinkedIn" },
+    ],
+  },
+];
 
 export const blogPosts = [
   {
@@ -76,6 +110,13 @@ export const blogPosts = [
 const BlogPage = () => {
   return (
     <div className="bg-black min-h-screen text-white">
+      <Navbar
+        logoAlt="Qode Logo"
+        items={navItems}
+        baseColor="#fff"
+        buttonBgColor="#84CC16"
+        buttonTextColor="#000"
+      />
       {/* Hero */}
       <section className="relative pt-32 pb-16 px-4 sm:px-6 overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-30">
@@ -129,6 +170,7 @@ const BlogPage = () => {
                   <img
                     src={blogPosts[0].image}
                     alt={blogPosts[0].title}
+                    loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r" />
@@ -187,6 +229,7 @@ const BlogPage = () => {
                   <img
                     src={post.image}
                     alt={post.title}
+                    loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />

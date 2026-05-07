@@ -64,6 +64,7 @@ const Testimonials = () => {
                   src={item.image}
                   className="rounded-full object-cover h-12 w-12 border border-lime-500"
                   alt=""
+                  loading="lazy"
                 />
               </div>
               <div className="w-[70%]">

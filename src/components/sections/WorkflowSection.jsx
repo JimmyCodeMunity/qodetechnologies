@@ -58,7 +58,7 @@ const WorkflowSection = () => {
               How We Work
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
             From Idea to{" "}
             <span className="bg-gradient-to-r from-lime-500 to-orange-500 bg-clip-text text-transparent">
               Impact
@@ -114,7 +114,6 @@ const WorkflowSection = () => {
                       {step.desc}
                     </p>
                   </div>
-                  {/* styled */}
 
                   {/* Empty spacer for opposite side */}
                   <div
