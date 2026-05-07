@@ -71,9 +71,9 @@ const ServiceDialog = ({ title, className }) => {
             <ArrowRight color="white" size={25} />
           </Button>
         </DialogTrigger>
-        <DialogContent className="max-h-[80vh] overflow-y-auto ">
+        <DialogContent className="max-h-[80vh] overflow-y-auto mx-4 sm:mx-auto w-[calc(100%-2rem)] sm:w-full">
           <DialogHeader>
-            <DialogTitle>Fill in your details.</DialogTitle>
+            <DialogTitle className="text-white">Fill in your details.</DialogTitle>
             <div className="w-full">
               <form onSubmit={handleSubmit} className="w-full">
                 <div className="flex flex-col space-y-4">
@@ -120,38 +120,38 @@ const ServiceDialog = ({ title, className }) => {
 
                   {/* Service Selection */}
                   <div className="space-y-2">
-                    <p className="text-sm font-medium">Select a Service:</p>
+                    <p className="text-sm font-medium text-white">Select a Service:</p>
                     <div className="flex flex-col space-y-2">
-                      <label className="flex items-center">
+                      <label className="flex items-center text-neutral-300 cursor-pointer">
                         <input
                           type="radio"
                           name="service"
                           value="softwareDev"
                           checked={selectedService === "softwareDev"}
                           onChange={handleServiceChange}
-                          className="mr-2"
+                          className="mr-2 accent-lime-500"
                         />
                         Software Development
                       </label>
-                      <label className="flex items-center">
+                      <label className="flex items-center text-neutral-300 cursor-pointer">
                         <input
                           type="radio"
                           name="service"
                           value="learnProgramming"
                           checked={selectedService === "learnProgramming"}
                           onChange={handleServiceChange}
-                          className="mr-2"
+                          className="mr-2 accent-lime-500"
                         />
                         Learn Programming
                       </label>
-                      <label className="flex items-center">
+                      <label className="flex items-center text-neutral-300 cursor-pointer">
                         <input
                           type="radio"
                           name="service"
                           value="mobileDev"
                           checked={selectedService === "mobileDev"}
                           onChange={handleServiceChange}
-                          className="mr-2"
+                          className="mr-2 accent-lime-500"
                         />
                         Mobile Development
                       </label>
@@ -191,13 +191,13 @@ const ServiceDialog = ({ title, className }) => {
                   {selectedService === "learnProgramming" && (
                     <div className="space-y-4">
                       <div>
-                        <p className="text-sm font-medium">
+                        <p className="text-sm font-medium text-white">
                           Front End Languages:
                         </p>
                         <div className="flex flex-col space-y-2">
                           {["HTML", "CSS", "JavaScript", "React", "Vue"].map(
                             (lang) => (
-                              <label key={lang} className="flex items-center">
+                              <label key={lang} className="flex items-center text-neutral-300 cursor-pointer">
                                 <input
                                   type="checkbox"
                                   name="frontEnd"
@@ -212,7 +212,7 @@ const ServiceDialog = ({ title, className }) => {
                                       "frontEnd"
                                     )
                                   }
-                                  className="mr-2"
+                                  className="mr-2 accent-lime-500"
                                 />
                                 {lang}
                               </label>
@@ -221,13 +221,13 @@ const ServiceDialog = ({ title, className }) => {
                         </div>
                       </div>
                       <div>
-                        <p className="text-sm font-medium">
+                        <p className="text-sm font-medium text-white">
                           Backend Languages:
                         </p>
                         <div className="flex flex-col space-y-2">
                           {["Python", "Node.js", "Java", "Ruby", "PHP"].map(
                             (lang) => (
-                              <label key={lang} className="flex items-center">
+                              <label key={lang} className="flex items-center text-neutral-300 cursor-pointer">
                                 <input
                                   type="checkbox"
                                   name="backend"
@@ -242,7 +242,7 @@ const ServiceDialog = ({ title, className }) => {
                                       "backend"
                                     )
                                   }
-                                  className="mr-2"
+                                  className="mr-2 accent-lime-500"
                                 />
                                 {lang}
                               </label>
@@ -251,11 +251,11 @@ const ServiceDialog = ({ title, className }) => {
                         </div>
                       </div>
                       <div>
-                        <p className="text-sm font-medium">Mobile Languages:</p>
+                        <p className="text-sm font-medium text-white">Mobile Languages:</p>
                         <div className="flex flex-col space-y-2">
                           {["Swift", "Kotlin", "Flutter", "React Native"].map(
                             (lang) => (
-                              <label key={lang} className="flex items-center">
+                              <label key={lang} className="flex items-center text-neutral-300 cursor-pointer">
                                 <input
                                   type="checkbox"
                                   name="mobile"
@@ -270,7 +270,7 @@ const ServiceDialog = ({ title, className }) => {
                                       "mobile"
                                     )
                                   }
-                                  className="mr-2"
+                                  className="mr-2 accent-lime-500"
                                 />
                                 {lang}
                               </label>
@@ -316,7 +316,7 @@ const ServiceDialog = ({ title, className }) => {
                         name="platform"
                         value={formData.mobileDev.platform}
                         onChange={(e) => handleInputChange(e, "mobileDev")}
-                        className="w-full border rounded-md p-2"
+                        className="w-full border border-neutral-700 rounded-md p-2 bg-neutral-900 text-white"
                       >
                         <option value="" disabled>
                           Select target platform
@@ -329,7 +329,7 @@ const ServiceDialog = ({ title, className }) => {
                         name="appType"
                         value={formData.mobileDev.appType}
                         onChange={(e) => handleInputChange(e, "mobileDev")}
-                        className="w-full border rounded-md p-2"
+                        className="w-full border border-neutral-700 rounded-md p-2 bg-neutral-900 text-white"
                       >
                         <option value="" disabled>
                           Select app type

@@ -27,7 +27,7 @@ const Newsletter = () => {
         <p className="text-3xl font-semibold text-center">
           Get the latest insights on tech, AI, and digital transformation.
         </p>
-        <div className="md:w-[600px] w-80 flex md:flex-row flex-col items-center justify-center md:space-x-4 space-y-3">
+        <div className="w-full max-w-sm md:max-w-[600px] flex md:flex-row flex-col items-center justify-center md:space-x-4 space-y-3 px-4">
           <Input
             type="email"
             className="md:py-8 py-4 w-full rounded-full"

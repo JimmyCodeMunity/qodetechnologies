@@ -183,11 +183,11 @@ const WebDevAd = () => {
             >
               <ServiceDialog
                 title="Start Your Web Project"
-                className="inline-flex items-center justify-center py-3 px-7 text-base font-semibold text-center text-black rounded-full bg-orange-500 shadow-xs hover:bg-orange-600 transition-all duration-500"
+                className="inline-flex items-center justify-center py-3 md:px-7 px-1 text-base font-semibold text-center text-black rounded-full bg-orange-500  shadow-xs hover:bg-orange-600 transition-all duration-500"
               />
               <Link
                 to="/services"
-                className="inline-flex items-center gap-2 text-white text-sm font-medium hover:text-orange-500 transition-colors"
+                className="inline-flex items-center md:gap-2 gap-1 text-white md:text-sm text-xs font-medium hover:text-orange-500 transition-colors"
               >
                 View Tech Stack <ArrowRight size={16} />
               </Link>

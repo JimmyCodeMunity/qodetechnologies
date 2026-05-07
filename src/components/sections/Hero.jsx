@@ -116,7 +116,7 @@ const Hero = () => {
             ease="power3.out"
           />
         </div>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative text-center z-10">
+        <div className="mx-auto md:mt-0 mt-8 max-w-7xl px-4 sm:px-6 lg:px-8 relative text-center z-10">
           <div className="border border-lime-500 p-1 w-auto max-w-60 mx-auto rounded-full flex items-center justify-between mb-4">
             <span className="font-inter text-xs font-medium text-white ml-3">
               Request For a Service
