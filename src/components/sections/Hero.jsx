@@ -142,15 +142,15 @@ const Hero = () => {
               </svg>
             </a>
           </div>
-          <h1 className="max-w-2xl mx-auto text-center font-manrope font-bold text-4xl text-lime-500 mb-5 md:text-5xl leading-[50px]">
-            <span className="text-orange-500">Transform</span> Your Business
-            With {"  "}
+          <h1 className="max-w-3xl mx-auto text-center font-manrope font-bold text-4xl text-lime-500 mb-5 md:text-5xl lg:text-6xl leading-[50px]">
+            <span className="text-orange-500">Engineer</span> the Future
+            with{"  "}
             <span className="bg-gradient-to-r from-blue-600 via-lime-500 to-orange-500 bg-clip-text text-transparent">
               Qode{" "}
             </span>
           </h1>
-          <p className="max-w-sm mx-auto text-center text-base font-normal leading-7 text-gray-500 mb-9">
-            We engineer powerful digital solutions — from AI-driven apps to cloud infrastructure — that accelerate growth and future-proof your business.
+          <p className="max-w-xl mx-auto text-center text-base md:text-lg font-normal leading-7 md:leading-8 text-gray-400 mb-9">
+            End-to-end software engineering partner building scalable web apps, mobile platforms, AI systems, and cloud infrastructure for startups and enterprises.
           </p>
           <div className="text-center text-white mb-5">
             <TrueFocus

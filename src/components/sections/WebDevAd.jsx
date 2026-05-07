@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "motion/react";
+import { Link } from "react-router-dom";
 import { Globe, Zap, Code2, Layers, ArrowRight } from "lucide-react";
 import ServiceDialog from "../ui/ServiceDialog";
 
@@ -184,12 +185,12 @@ const WebDevAd = () => {
                 title="Start Your Web Project"
                 className="inline-flex items-center justify-center py-3 px-7 text-base font-semibold text-center text-black rounded-full bg-orange-500 shadow-xs hover:bg-orange-600 transition-all duration-500"
               />
-              <a
-                href="#services"
+              <Link
+                to="/services"
                 className="inline-flex items-center gap-2 text-white text-sm font-medium hover:text-orange-500 transition-colors"
               >
                 View Tech Stack <ArrowRight size={16} />
-              </a>
+              </Link>
             </motion.div>
           </motion.div>
         </div>

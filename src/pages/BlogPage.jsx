@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Clock, Calendar, Tag } from "lucide-react";
 import Footer from "../components/sections/Footer";
 import Navbar from "../components/Navbar";
+import WhatsAppButton from "../components/WhatsAppButton";
 
 const navItems = [
   {
@@ -267,6 +268,7 @@ const BlogPage = () => {
       </section>
 
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 };

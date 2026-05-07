@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Services from "../components/sections/Services";
 import Footer from "../components/sections/Footer";
 import ServiceDialog from "../components/ui/ServiceDialog";
+import WhatsAppButton from "../components/WhatsAppButton";
 
 const navItems = [
   {
@@ -99,6 +100,7 @@ const ServicesPage = () => {
       </section>
 
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 };

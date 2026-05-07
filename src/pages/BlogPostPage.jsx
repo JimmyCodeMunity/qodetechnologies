@@ -6,6 +6,7 @@ import { blogPosts } from "./BlogPage";
 import Footer from "../components/sections/Footer";
 import ServiceDialog from "../components/ui/ServiceDialog";
 import Navbar from "../components/Navbar";
+import WhatsAppButton from "../components/WhatsAppButton";
 
 const fallbackContent = {
   "why-we-chose-nextjs": `When we started building enterprise applications for clients, the performance expectations were non-negotiable. Users expect instant page loads, seamless interactions, and SEO that dominates search rankings. After evaluating multiple frameworks, Next.js emerged as the clear winner — not just for its popularity, but for its architecture.
@@ -399,6 +400,7 @@ const BlogPostPage = () => {
       </section>
 
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 };

@@ -10,6 +10,7 @@ import Footer from "../components/sections/Footer";
 import { Faq } from "../components/sections/Faq";
 import BentoGrid from "../components/kokonutui/bento-grid";
 import { DottedMap } from "../components/ui/dotted-map";
+import WhatsAppButton from "../components/WhatsAppButton";
 const HomePage = () => {
   return (
     <div className="bg-black flex-1 w-full">
@@ -36,6 +37,7 @@ const HomePage = () => {
       <Newsletter />
       {/* <CodeType /> */}
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 };

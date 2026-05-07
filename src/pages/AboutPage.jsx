@@ -16,6 +16,7 @@ import ServiceDialog from "../components/ui/ServiceDialog";
 import { AnimatedTooltipPreview } from "../components/ui/TeamTooltip";
 import Footer from "../components/sections/Footer";
 import Navbar from "../components/Navbar";
+import WhatsAppButton from "../components/WhatsAppButton";
 
 const stats = [
   { value: "150+", label: "Projects Delivered" },
@@ -391,6 +392,7 @@ const AboutPage = () => {
       </section>
 
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 };
