@@ -32,7 +32,7 @@ const AdminUsersPage = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-h-screen">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Users</h1>
         <span className="text-sm text-neutral-500">{users.length} total</span>
@@ -81,7 +81,7 @@ const AdminUsersPage = () => {
                   </td>
                   <td className="p-4">
                     <span className={`text-xs font-medium px-2 py-1 rounded-full border ${u.role === "Premium Client" ? "bg-purple-500/10 text-purple-400 border-purple-500/20" :
-                        "bg-neutral-800 text-neutral-400 border-neutral-700"
+                      "bg-neutral-800 text-neutral-400 border-neutral-700"
                       }`}>
                       {u.role}
                     </span>
@@ -90,8 +90,8 @@ const AdminUsersPage = () => {
                     <button
                       onClick={() => toggleStatus(u.id)}
                       className={`text-xs font-medium px-2 py-1 rounded-full border transition-all ${u.status === "active"
-                          ? "bg-lime-500/10 text-lime-400 border-lime-500/20"
-                          : "bg-neutral-800 text-neutral-500 border-neutral-700"
+                        ? "bg-lime-500/10 text-lime-400 border-lime-500/20"
+                        : "bg-neutral-800 text-neutral-500 border-neutral-700"
                         }`}
                     >
                       {u.status}

@@ -8,8 +8,10 @@ import ProjectsPage from './pages/ProjectsPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
 import DashboardPage from './pages/DashboardPage'
 import LoadingScreen from './components/ui/LoadingScreen'
+import UserProtectedRoute from './components/UserProtectedRoute'
 
 import AdminLayout from './admin/components/AdminLayout'
 import AdminLoginPage from './admin/pages/AdminLoginPage'
@@ -21,6 +23,8 @@ import AdminCommunicationsPage from './admin/pages/AdminCommunicationsPage'
 import AdminSubscriptionsPage from './admin/pages/AdminSubscriptionsPage'
 import AdminContactPage from './admin/pages/AdminContactPage'
 import AdminProfilePage from './admin/pages/AdminProfilePage'
+import AdminResetPasswordPage from './admin/pages/AdminResetPasswordPage'
+import ProtectedRoute from './admin/components/ProtectedRoute'
 
 function App() {
   return (
@@ -36,18 +40,20 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/dashboard" element={<UserProtectedRoute><DashboardPage /></UserProtectedRoute>} />
 
         {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminLoginPage />} />
-        <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboardPage /></AdminLayout>} />
-        <Route path="/admin/projects" element={<AdminLayout><AdminProjectsPage /></AdminLayout>} />
-        <Route path="/admin/users" element={<AdminLayout><AdminUsersPage /></AdminLayout>} />
-        <Route path="/admin/requests" element={<AdminLayout><AdminRequestsPage /></AdminLayout>} />
-        <Route path="/admin/communications" element={<AdminLayout><AdminCommunicationsPage /></AdminLayout>} />
-        <Route path="/admin/subscriptions" element={<AdminLayout><AdminSubscriptionsPage /></AdminLayout>} />
-        <Route path="/admin/contact" element={<AdminLayout><AdminContactPage /></AdminLayout>} />
-        <Route path="/admin/profile" element={<AdminLayout><AdminProfilePage /></AdminLayout>} />
+        <Route path="/admin/reset-password" element={<AdminResetPasswordPage />} />
+        <Route path="/admin/dashboard" element={<ProtectedRoute><AdminLayout><AdminDashboardPage /></AdminLayout></ProtectedRoute>} />
+        <Route path="/admin/projects" element={<ProtectedRoute><AdminLayout><AdminProjectsPage /></AdminLayout></ProtectedRoute>} />
+        <Route path="/admin/users" element={<ProtectedRoute><AdminLayout><AdminUsersPage /></AdminLayout></ProtectedRoute>} />
+        <Route path="/admin/requests" element={<ProtectedRoute><AdminLayout><AdminRequestsPage /></AdminLayout></ProtectedRoute>} />
+        <Route path="/admin/communications" element={<ProtectedRoute><AdminLayout><AdminCommunicationsPage /></AdminLayout></ProtectedRoute>} />
+        <Route path="/admin/subscriptions" element={<ProtectedRoute><AdminLayout><AdminSubscriptionsPage /></AdminLayout></ProtectedRoute>} />
+        <Route path="/admin/contact" element={<ProtectedRoute><AdminLayout><AdminContactPage /></AdminLayout></ProtectedRoute>} />
+        <Route path="/admin/profile" element={<ProtectedRoute><AdminLayout><AdminProfilePage /></AdminLayout></ProtectedRoute>} />
       </Routes>
     </>
   )

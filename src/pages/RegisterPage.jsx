@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { Eye, EyeOff, ArrowRight, UserPlus, Check } from "lucide-react";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import Navbar from "../components/Navbar";
 import Footer from "../components/sections/Footer";
+import { useUserAuth } from "../context/UserAuthContext";
+import { toast } from "sonner";
 
 const navItems = [
   {
@@ -43,6 +45,8 @@ const navItems = [
 ];
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
+  const { register } = useUserAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [formData, setFormData] = useState({
@@ -52,10 +56,28 @@ const RegisterPage = () => {
     password: "",
     confirmPassword: "",
   });
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Register Data:", formData);
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords do not match.");
+      return;
+    }
+    setSubmitting(true);
+    const result = await register({
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      password: formData.password,
+    });
+    setSubmitting(false);
+    if (result.success) {
+      toast.success("Account created! Welcome to Qode.");
+      navigate("/dashboard");
+    } else {
+      toast.error(result.message || "Registration failed.");
+    }
   };
 
   const strengths = [
@@ -187,9 +209,10 @@ const RegisterPage = () => {
 
               <Button
                 type="submit"
-                className="w-full py-3 h-auto text-base font-semibold text-black rounded-full bg-orange-500 shadow-xs hover:bg-orange-600 transition-all duration-500"
+                disabled={submitting}
+                className="w-full py-3 h-auto text-base font-semibold text-black rounded-full bg-orange-500 shadow-xs hover:bg-orange-600 transition-all duration-500 disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Create Account <ArrowRight size={18} />
+                {submitting ? "Creating account..." : "Create Account"} <ArrowRight size={18} />
               </Button>
             </form>
 

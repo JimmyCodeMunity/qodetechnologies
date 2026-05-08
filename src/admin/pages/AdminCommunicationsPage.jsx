@@ -37,7 +37,7 @@ const AdminCommunicationsPage = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-h-screen">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">Communications</h1>
         <div className="flex items-center gap-2">

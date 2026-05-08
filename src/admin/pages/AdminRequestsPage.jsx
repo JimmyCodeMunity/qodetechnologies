@@ -35,7 +35,7 @@ const AdminRequestsPage = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-h-screen">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">Service Requests</h1>
         <div className="flex items-center gap-2">
@@ -43,11 +43,10 @@ const AdminRequestsPage = () => {
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${
-                filter === f
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${filter === f
                   ? "bg-lime-500/10 text-lime-500 border-lime-500/20"
                   : "bg-neutral-900 text-neutral-400 border-neutral-800 hover:border-neutral-700"
-              }`}
+                }`}
             >
               {f === "all" ? "All" : f}
             </button>
