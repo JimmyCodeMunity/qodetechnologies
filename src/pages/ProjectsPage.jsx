@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ExternalLink, Layers, Globe, Code2, Truck, Brain, Building2, ShoppingBag, Fingerprint } from "lucide-react";
+import { ArrowRight, ExternalLink, Layers, Globe, Code2, Truck, Brain, Building2, ShoppingBag, Fingerprint, Loader2, Smartphone, Bot, Palette, Cloud, Zap, Heart, TrendingUp, AlertCircle } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/sections/Footer";
 import WhatsAppButton from "../components/WhatsAppButton";
+import apiConfig from "../config/api";
 
 const navItems = [
   {
@@ -41,124 +42,154 @@ const navItems = [
   },
 ];
 
-const projects = [
+const iconMap = {
+  Globe,
+  Code2,
+  Smartphone,
+  Bot,
+  Palette,
+  Cloud,
+  Layers,
+  Building2,
+  Truck,
+  ShoppingBag,
+  Brain,
+  Fingerprint,
+  Zap,
+  Heart,
+  TrendingUp,
+};
+
+const accentColors = {
+  lime: { text: "text-lime-400", border: "group-hover:border-lime-500/40", bg: "bg-lime-500/10", borderBg: "border-lime-500/20", gradient: "from-lime-500/20 to-emerald-500/10" },
+  orange: { text: "text-orange-400", border: "group-hover:border-orange-500/40", bg: "bg-orange-500/10", borderBg: "border-orange-500/20", gradient: "from-orange-500/20 to-red-500/10" },
+  blue: { text: "text-blue-400", border: "group-hover:border-blue-500/40", bg: "bg-blue-500/10", borderBg: "border-blue-500/20", gradient: "from-blue-500/20 to-cyan-500/10" },
+  purple: { text: "text-purple-400", border: "group-hover:border-purple-500/40", bg: "bg-purple-500/10", borderBg: "border-purple-500/20", gradient: "from-purple-500/20 to-blue-500/10" },
+  pink: { text: "text-pink-400", border: "group-hover:border-pink-500/40", bg: "bg-pink-500/10", borderBg: "border-pink-500/20", gradient: "from-pink-500/20 to-rose-500/10" },
+  cyan: { text: "text-cyan-400", border: "group-hover:border-cyan-500/40", bg: "bg-cyan-500/10", borderBg: "border-cyan-500/20", gradient: "from-cyan-500/20 to-teal-500/10" },
+  yellow: { text: "text-yellow-400", border: "group-hover:border-yellow-500/40", bg: "bg-yellow-500/10", borderBg: "border-yellow-500/20", gradient: "from-yellow-500/20 to-amber-500/10" },
+};
+
+// Fallback projects for when server is down
+const fallbackProjects = [
   {
-    id: "cubicalm",
-    name: "Cubicalm",
-    url: "https://cubicalm.com/",
-    icon: <Brain size={28} className="text-purple-400" />,
-    tagline: "Mental wellness & focus platform",
-    description:
-      "A mindfulness and productivity suite designed to help teams stay calm and focused. Built with real-time analytics and personalized wellness tracking.",
-    tags: ["Next.js", "Node.js", "PostgreSQL", "Tailwind"],
-    gradient: "from-purple-500/20 to-blue-500/10",
-    accent: "purple",
+    _id: "1",
+    name: "E-Commerce Platform",
+    type: "Web Development",
+    description: "A modern e-commerce platform with real-time inventory management, secure payment processing, and responsive design for optimal user experience across all devices.",
+    icon: "ShoppingBag",
+    accentColor: "lime",
+    link: "https://example.com",
+    tags: ["React", "Node.js", "MongoDB", "Stripe"],
+    featured: true,
+    status: "Completed",
+    order: 1
   },
   {
-    id: "foiyd",
-    name: "Foiyd",
-    url: "https://foiyd.com/",
-    icon: <Layers size={28} className="text-orange-400" />,
-    tagline: "Creative digital experience",
-    description:
-      "A modern web platform blending content, community, and creative tools. Engineered for speed with a highly interactive UI and smooth animations.",
-    tags: ["React", "Firebase", "Framer Motion", "Vercel"],
-    gradient: "from-orange-500/20 to-red-500/10",
-    accent: "orange",
+    _id: "2",
+    name: "AI Task Manager",
+    type: "AI & Automation",
+    description: "Intelligent task management system with AI-powered prioritization, natural language processing, and automated workflow optimization.",
+    icon: "Bot",
+    accentColor: "blue",
+    link: "https://example.com",
+    tags: ["Python", "TensorFlow", "React", "PostgreSQL"],
+    featured: true,
+    status: "In Progress",
+    order: 2
   },
   {
-    id: "computer-one",
-    name: "Computer One Solutions",
-    url: "https://computeronesolutions.vercel.app/",
-    icon: <Code2 size={28} className="text-lime-400" />,
-    tagline: "IT solutions & tech services",
-    description:
-      "Corporate website and service portal for an IT solutions provider. Features service booking, live chat integration, and a clean enterprise-grade design.",
-    tags: ["React", "Vite", "Tailwind", "Supabase"],
-    gradient: "from-lime-500/20 to-emerald-500/10",
-    accent: "lime",
+    _id: "3",
+    name: "Mobile Banking App",
+    type: "Mobile Development",
+    description: "Secure and intuitive mobile banking application with biometric authentication, real-time transactions, and comprehensive financial management tools.",
+    icon: "Smartphone",
+    accentColor: "purple",
+    link: "https://example.com",
+    tags: ["React Native", "Firebase", "Node.js", "Security"],
+    featured: true,
+    status: "Completed",
+    order: 3
   },
   {
-    id: "zanacoworking",
-    name: "Zana Coworking Hub",
-    url: "https://zanacoworkinghub.vercel.app/",
-    icon: <Building2 size={28} className="text-blue-400" />,
-    tagline: "Coworking space management",
-    description:
-      "Booking and management platform for a modern coworking space. Includes real-time desk availability, membership tiers, and payment processing.",
-    tags: ["Next.js", "Prisma", "Stripe", "PostgreSQL"],
-    gradient: "from-blue-500/20 to-cyan-500/10",
-    accent: "blue",
+    _id: "4",
+    name: "Healthcare Dashboard",
+    type: "Web Development",
+    description: "Comprehensive healthcare management dashboard with patient records, appointment scheduling, and real-time analytics for medical professionals.",
+    icon: "Heart",
+    accentColor: "cyan",
+    link: "https://example.com",
+    tags: ["Vue.js", "Express", "MySQL", "Chart.js"],
+    featured: false,
+    status: "In Progress",
+    order: 4
   },
   {
-    id: "cgm-logistics",
-    name: "CGM Logistics",
-    url: "https://cgmlogistics.vercel.app/",
-    icon: <Truck size={28} className="text-yellow-400" />,
-    tagline: "Logistics & supply chain tracking",
-    description:
-      "End-to-end logistics management dashboard with live shipment tracking, route optimization, and fleet analytics for transportation companies.",
-    tags: ["React", "Node.js", "MongoDB", "Mapbox"],
-    gradient: "from-yellow-500/20 to-amber-500/10",
-    accent: "yellow",
+    _id: "5",
+    name: "Smart Home IoT",
+    type: "AI & Automation",
+    description: "Integrated smart home automation system with voice control, energy monitoring, and predictive maintenance capabilities.",
+    icon: "Cloud",
+    accentColor: "orange",
+    link: "https://example.com",
+    tags: ["IoT", "Python", "AWS", "Machine Learning"],
+    featured: false,
+    status: "Completed",
+    order: 5
   },
   {
-    id: "broddies-collection",
-    name: "Broddies Collection",
-    url: "https://broddiescollection.com/",
-    icon: <ShoppingBag size={28} className="text-pink-400" />,
-    tagline: "Fashion & lifestyle e-commerce",
-    description:
-      "A curated online store for fashion and lifestyle products with seamless checkout, wishlists, and a clean modern storefront experience.",
-    tags: ["Next.js", "Stripe", "Tailwind", "PostgreSQL"],
-    gradient: "from-pink-500/20 to-rose-500/10",
-    accent: "pink",
-  },
-  {
-    id: "identity-ea",
-    name: "Identity EA",
-    url: "https://identityea.com/",
-    icon: <Fingerprint size={28} className="text-cyan-400" />,
-    tagline: "Identity verification & KYC platform",
-    description:
-      "A secure identity verification platform enabling fast KYC checks, document authentication, and fraud detection for financial institutions.",
-    tags: ["React", "Node.js", "MongoDB", "AWS"],
-    gradient: "from-cyan-500/20 to-teal-500/10",
-    accent: "cyan",
-  },
+    _id: "6",
+    name: "Social Media Analytics",
+    type: "Web Development",
+    description: "Advanced analytics platform for social media management with sentiment analysis, engagement tracking, and automated reporting.",
+    icon: "TrendingUp",
+    accentColor: "pink",
+    link: "https://example.com",
+    tags: ["React", "Python", "NLP", "Data Visualization"],
+    featured: false,
+    status: "In Progress",
+    order: 6
+  }
 ];
 
-const accentText = {
-  purple: "text-purple-400 group-hover:text-purple-300",
-  orange: "text-orange-400 group-hover:text-orange-300",
-  lime: "text-lime-400 group-hover:text-lime-300",
-  blue: "text-blue-400 group-hover:text-blue-300",
-  yellow: "text-yellow-400 group-hover:text-yellow-300",
-  pink: "text-pink-400 group-hover:text-pink-300",
-  cyan: "text-cyan-400 group-hover:text-cyan-300",
-};
-
-const accentBorder = {
-  purple: "group-hover:border-purple-500/40",
-  orange: "group-hover:border-orange-500/40",
-  lime: "group-hover:border-lime-500/40",
-  blue: "group-hover:border-blue-500/40",
-  yellow: "group-hover:border-yellow-500/40",
-  pink: "group-hover:border-pink-500/40",
-  cyan: "group-hover:border-cyan-500/40",
-};
-
-const accentBg = {
-  purple: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-  orange: "bg-orange-500/10 text-orange-400 border-orange-500/20",
-  lime: "bg-lime-500/10 text-lime-400 border-lime-500/20",
-  blue: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-  yellow: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
-  pink: "bg-pink-500/10 text-pink-400 border-pink-500/20",
-  cyan: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
-};
-
 const ProjectsPage = () => {
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [usingFallback, setUsingFallback] = useState(false);
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    try {
+      const res = await fetch(apiConfig.getEndpoint('/api/v1/projects'));
+      const data = await res.json();
+      if (data.success && data.data && data.data.length > 0) {
+        setProjects(data.data);
+        setUsingFallback(false);
+      } else {
+        // Use fallback if no data or empty response
+        setProjects(fallbackProjects);
+        setUsingFallback(true);
+      }
+    } catch (error) {
+      console.error("Failed to fetch projects, using fallback:", error);
+      setProjects(fallbackProjects);
+      setUsingFallback(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="bg-black min-h-screen text-white flex items-center justify-center">
+        <Loader2 size={32} className="animate-spin text-lime-500" />
+      </div>
+    );
+  }
+
   return (
     <div className="bg-black min-h-screen text-white">
       <Navbar logoAlt="Qode Logo" items={navItems} baseColor="#fff" buttonBgColor="#84CC16" buttonTextColor="#000" />
@@ -192,59 +223,67 @@ const ProjectsPage = () => {
       {/* Projects Grid */}
       <section className="px-4 sm:px-6 pb-24">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, i) => (
-            <motion.a
-              key={project.id}
-              href={project.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className={`group relative rounded-2xl border border-neutral-800 bg-neutral-950 overflow-hidden hover:shadow-xl transition-all duration-500 ${accentBorder[project.accent]}`}
-            >
-              {/* Gradient Header */}
-              <div className={`relative h-40 bg-gradient-to-br ${project.gradient} flex items-center justify-center overflow-hidden`}>
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.03)_0%,transparent_70%)]" />
-                <div className="relative z-10 w-16 h-16 rounded-2xl bg-neutral-950/80 border border-neutral-800 flex items-center justify-center shadow-lg">
-                  {project.icon}
-                </div>
-                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
-                    <ExternalLink size={14} className="text-white" />
+          {projects.map((project, i) => {
+            const Icon = iconMap[project.icon] || Globe;
+            const accent = accentColors[project.accentColor] || accentColors.lime;
+            return (
+              <motion.a
+                key={project._id}
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className={`group relative rounded-2xl border border-neutral-800 bg-neutral-950 overflow-hidden hover:shadow-xl transition-all duration-500 ${accent.border}`}
+              >
+                {/* Gradient Header */}
+                <div className={`relative h-40 bg-gradient-to-br ${accent.gradient} flex items-center justify-center overflow-hidden`}>
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.03)_0%,transparent_70%)]" />
+                  <div className="relative z-10 w-16 h-16 rounded-2xl bg-neutral-950/80 border border-neutral-800 flex items-center justify-center shadow-lg">
+                    <Icon size={28} className={accent.text} />
+                  </div>
+                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
+                      <ExternalLink size={14} className="text-white" />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Content */}
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className={`text-xl font-bold ${accentText[project.accent]} transition-colors`}>
-                    {project.name}
-                  </h3>
-                  <span className="text-xs text-neutral-500 font-mono">{new URL(project.url).hostname}</span>
-                </div>
-                <p className="text-sm text-neutral-400 font-medium mb-3">{project.tagline}</p>
-                <p className="text-sm text-neutral-500 leading-relaxed mb-4">{project.description}</p>
+                {/* Content */}
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className={`text-xl font-bold ${accent.text} transition-colors`}>
+                      {project.name}
+                    </h3>
+                    {project.link && (
+                      <span className="text-xs text-neutral-500 font-mono">{new URL(project.link).hostname}</span>
+                    )}
+                  </div>
+                  <p className="text-sm text-neutral-400 font-medium mb-3">{project.type}</p>
+                  <p className="text-sm text-neutral-500 leading-relaxed mb-4">{project.description}</p>
 
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className={`text-xs px-2.5 py-1 rounded-full border ${accentBg[project.accent]}`}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                  {project.tags && project.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-5">
+                      {project.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className={`text-xs px-2.5 py-1 rounded-full border ${accent.bg} ${accent.text} ${accent.borderBg}`}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
 
-                <div className="flex items-center gap-2 text-sm font-medium text-neutral-300 group-hover:text-white transition-colors">
-                  Visit Site <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  <div className="flex items-center gap-2 text-sm font-medium text-neutral-300 group-hover:text-white transition-colors">
+                    Visit Site <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
-              </div>
-            </motion.a>
-          ))}
+              </motion.a>
+            );
+          })}
         </div>
       </section>
 

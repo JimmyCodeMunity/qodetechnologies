@@ -7,7 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "preview:host": "vite preview --host",
+    "dev:prod": "vite --mode production",
+    "build:prod": "vite build --mode production",
+    "preview:prod": "vite preview --mode production"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
@@ -29,6 +33,7 @@
     "react-dom": "^19.1.1",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.9.3",
+    "sonner": "^2.0.7",
     "svg-dotted-map": "^2.0.1",
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",

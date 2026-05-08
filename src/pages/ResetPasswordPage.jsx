@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { motion } from "motion/react";
-import { ArrowRight, KeyRound, Mail, ArrowLeft } from "lucide-react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Eye, EyeOff, ArrowRight, KeyRound, Check } from "lucide-react";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import Navbar from "../components/Navbar";
@@ -44,22 +44,39 @@ const navItems = [
   },
 ];
 
-const ForgotPasswordPage = () => {
-  const { forgotPassword } = useUserAuth();
-  const [submitted, setSubmitted] = useState(false);
-  const [email, setEmail] = useState("");
+const ResetPasswordPage = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { resetPassword } = useUserAuth();
+  const [showPassword, setShowPassword] = useState(false);
+  const [form, setForm] = useState({ token: searchParams.get("token") || "", password: "", confirm: "" });
   const [submitting, setSubmitting] = useState(false);
+  const [done, setDone] = useState(false);
+
+  const strengths = [
+    { label: "8+ characters", met: form.password.length >= 8 },
+    { label: "Uppercase & lowercase", met: /[a-z]/.test(form.password) && /[A-Z]/.test(form.password) },
+    { label: "Number or symbol", met: /[0-9!@#$%^&*]/.test(form.password) },
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (form.password !== form.confirm) {
+      toast.error("Passwords do not match.");
+      return;
+    }
+    if (!form.token) {
+      toast.error("Reset token is missing from the URL.");
+      return;
+    }
     setSubmitting(true);
-    const result = await forgotPassword(email);
+    const result = await resetPassword(form.token, form.password);
     setSubmitting(false);
     if (result.success) {
-      setSubmitted(true);
-      toast.success("Reset instructions sent. Check your inbox.");
+      setDone(true);
+      toast.success("Password reset successfully. You can now sign in.");
     } else {
-      toast.error(result.message || "Something went wrong.");
+      toast.error(result.message || "Failed to reset password.");
     }
   };
 
@@ -83,8 +100,8 @@ const ForgotPasswordPage = () => {
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-lime-500/10 border border-lime-500/20 mb-4">
               <KeyRound size={24} className="text-lime-500" />
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-2">Reset Password</h1>
-            <p className="text-neutral-400">We will send you a reset link</p>
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">Set New Password</h1>
+            <p className="text-neutral-400">Enter your new password below</p>
           </motion.div>
 
           <motion.div
@@ -93,21 +110,62 @@ const ForgotPasswordPage = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="bg-neutral-950 border border-neutral-800 rounded-2xl p-6 md:p-8 shadow-xl"
           >
-            {!submitted ? (
+            {!done ? (
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-neutral-300">Email Address</label>
+                  <label className="text-sm font-medium text-neutral-300">Reset Token</label>
+                  <Input
+                    type="text"
+                    placeholder="Paste your reset token"
+                    value={form.token}
+                    onChange={(e) => setForm({ ...form, token: e.target.value })}
+                    className="w-full"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-neutral-300">New Password</label>
                   <div className="relative">
-                    <Mail size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500" />
                     <Input
-                      type="email"
-                      placeholder="you@company.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-10"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Create a strong password"
+                      value={form.password}
+                      onChange={(e) => setForm({ ...form, password: e.target.value })}
+                      className="w-full pr-10"
                       required
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white transition-colors"
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
                   </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-neutral-300">Confirm Password</label>
+                  <Input
+                    type="password"
+                    placeholder="Repeat password"
+                    value={form.confirm}
+                    onChange={(e) => setForm({ ...form, confirm: e.target.value })}
+                    className="w-full"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  {strengths.map((s, i) => (
+                    <div key={i} className="flex items-center gap-2 text-sm">
+                      <div className={`w-4 h-4 rounded-full flex items-center justify-center border ${s.met ? "bg-lime-500 border-lime-500" : "border-neutral-600"}`}>
+                        {s.met && <Check size={10} className="text-black" />}
+                      </div>
+                      <span className={s.met ? "text-neutral-300" : "text-neutral-500"}>{s.label}</span>
+                    </div>
+                  ))}
                 </div>
 
                 <Button
@@ -115,7 +173,7 @@ const ForgotPasswordPage = () => {
                   disabled={submitting}
                   className="w-full py-3 h-auto text-base font-semibold text-black rounded-full bg-lime-500 shadow-xs hover:bg-lime-600 transition-all duration-500 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {submitting ? "Sending..." : "Send Reset Link"} <ArrowRight size={18} />
+                  {submitting ? "Resetting..." : "Reset Password"} <ArrowRight size={18} />
                 </Button>
               </form>
             ) : (
@@ -125,19 +183,16 @@ const ForgotPasswordPage = () => {
                 className="text-center py-4"
               >
                 <div className="w-12 h-12 rounded-full bg-lime-500/10 border border-lime-500/20 flex items-center justify-center mx-auto mb-4">
-                  <Mail size={20} className="text-lime-500" />
+                  <Check size={20} className="text-lime-500" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Check your inbox</h3>
-                <p className="text-neutral-400 text-sm mb-6">
-                  If an account exists for <span className="text-white font-medium">{email}</span>, you will receive a password reset link shortly.
-                </p>
-                <Button
-                  onClick={() => { setSubmitted(false); setEmail(""); }}
-                  variant="outline"
-                  className="rounded-full border-neutral-700 text-white hover:bg-neutral-800 hover:text-white"
+                <h3 className="text-lg font-semibold mb-2">Password updated</h3>
+                <p className="text-neutral-400 text-sm mb-6">Your password has been reset successfully.</p>
+                <Link
+                  to="/login"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-lime-500 text-black font-semibold text-sm hover:bg-lime-600 transition-all"
                 >
-                  Send another link
-                </Button>
+                  Sign In <ArrowRight size={16} />
+                </Link>
               </motion.div>
             )}
 
@@ -146,7 +201,7 @@ const ForgotPasswordPage = () => {
                 to="/login"
                 className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-lime-500 transition-colors"
               >
-                <ArrowLeft size={16} /> Back to login
+                Back to login
               </Link>
             </div>
           </motion.div>
@@ -158,4 +213,4 @@ const ForgotPasswordPage = () => {
   );
 };
 
-export default ForgotPasswordPage;
+export default ResetPasswordPage;

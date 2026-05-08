@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Briefcase,
@@ -25,9 +25,13 @@ import {
   Shield,
   Zap,
   ChevronRight,
+  LogOut,
 } from "lucide-react";
-const DashboardNavbar = () => {
+import { useUserAuth } from "../context/UserAuthContext";
+import { toast } from "sonner";
+const DashboardNavbar = ({ user, onLogout }) => {
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-neutral-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
@@ -68,9 +72,15 @@ const DashboardNavbar = () => {
             <Bell size={16} />
             <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-lime-500" />
           </button>
-          <div className="w-9 h-9 rounded-xl overflow-hidden border border-neutral-800 bg-neutral-900">
-            <img src={user.avatar} alt="Profile" className="w-full h-full" />
-          </div>
+          <Link to="/dashboard" className="w-9 h-9 rounded-xl overflow-hidden border border-neutral-800 bg-neutral-900 block">
+            <img src={user?.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=user&backgroundColor=b6e3f4"} alt="Profile" className="w-full h-full" />
+          </Link>
+          <button
+            onClick={() => { onLogout(); navigate("/"); }}
+            className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-neutral-300 hover:text-red-400 hover:bg-neutral-900 border border-transparent hover:border-neutral-800 transition-all"
+          >
+            <LogOut size={14} /> Logout
+          </button>
         </div>
       </div>
     </header>
@@ -83,17 +93,6 @@ const sidebarItems = [
   { id: "account", label: "Account", icon: <UserCircle size={18} /> },
   { id: "settings", label: "Settings", icon: <Settings size={18} /> },
 ];
-
-const user = {
-  name: "Bruce Wayne",
-  handle: "batman",
-  email: "batman@qodenow.com",
-  phone: "+254 141 447 430",
-  location: "Nairobi, Kenya",
-  role: "Premium Client",
-  joined: "Jan 15, 2025",
-  avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=batman&backgroundColor=b6e3f4",
-};
 
 const services = [
   {
@@ -168,26 +167,40 @@ const activity = [
 const fadeIn = { hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4 } } };
 
 const DashboardPage = () => {
+  const { user, logout, loading } = useUserAuth();
   const [activeTab, setActiveTab] = useState("dashboard");
+
+  if (loading || !user) {
+    return (
+      <div className="bg-black min-h-screen text-white flex items-center justify-center">
+        <Loader2 size={28} className="animate-spin text-lime-500" />
+      </div>
+    );
+  }
+
+  const handleLogout = () => {
+    logout();
+    toast.info("Logged out successfully.");
+  };
 
   const renderContent = () => {
     switch (activeTab) {
       case "dashboard":
-        return <DashboardTab />;
+        return <DashboardTab user={user} />;
       case "services":
         return <ServicesTab />;
       case "account":
-        return <AccountTab />;
+        return <AccountTab user={user} />;
       case "settings":
         return <SettingsTab />;
       default:
-        return <DashboardTab />;
+        return <DashboardTab user={user} />;
     }
   };
 
   return (
     <div className="bg-black min-h-screen text-white">
-      <DashboardNavbar />
+      <DashboardNavbar user={user} onLogout={handleLogout} />
 
       <div className="pt-24 pb-12 px-4 sm:px-6 max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-8">
@@ -196,10 +209,10 @@ const DashboardPage = () => {
             <div className="bg-neutral-950 border border-neutral-800 rounded-2xl p-4 sticky top-28">
               {/* User mini profile */}
               <div className="flex items-center gap-3 mb-6 pb-4 border-b border-neutral-800">
-                <img src={user.avatar} alt={user.name} className="w-10 h-10 rounded-full bg-neutral-800" />
+                <img src={user.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=user&backgroundColor=b6e3f4"} alt={user.firstName || "User"} className="w-10 h-10 rounded-full bg-neutral-800" />
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold truncate">{user.name}</p>
-                  <p className="text-xs text-neutral-500 truncate">@{user.handle}</p>
+                  <p className="text-sm font-semibold truncate">{`${user.firstName || ""} ${user.lastName || ""}`.trim() || "User"}</p>
+                  <p className="text-xs text-neutral-500 truncate">{user.email}</p>
                 </div>
               </div>
 
@@ -243,17 +256,18 @@ const DashboardPage = () => {
 };
 
 /* ---------- Dashboard Tab ---------- */
-const DashboardTab = () => {
+const DashboardTab = ({ user }) => {
   const inProgress = services.filter((s) => s.status === "In Progress").length;
   const completed = services.filter((s) => s.status === "Completed").length;
   const pending = services.filter((s) => s.status === "Pending").length;
+  const firstName = user?.firstName || user?.name?.split(" ")[0] || "User";
 
   return (
     <div className="space-y-6">
       {/* Welcome */}
       <div className="bg-neutral-950 border border-neutral-800 rounded-2xl p-6 md:p-8">
         <h1 className="text-2xl md:text-3xl font-bold mb-2">
-          Welcome back, <span className="text-lime-500">{user.name.split(" ")[0]}</span>
+          Welcome back, <span className="text-lime-500">{firstName}</span>
         </h1>
         <p className="text-neutral-400">Here is what is happening with your projects today.</p>
       </div>
@@ -362,28 +376,38 @@ const ServicesTab = () => {
 };
 
 /* ---------- Account Tab ---------- */
-const AccountTab = () => {
+const AccountTab = ({ user }) => {
+  const fullName = `${user.firstName || ""} ${user.lastName || ""}`.trim() || "User";
+  const joinedDate = user.joined ? new Date(user.joined).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "N/A";
+  const { logout } = useUserAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    toast.info("Logged out successfully.");
+    navigate("/");
+  };
+
   return (
     <div className="space-y-6">
       {/* Profile Card */}
       <div className="bg-neutral-950 border border-neutral-800 rounded-2xl p-6 md:p-8">
         <div className="flex flex-col sm:flex-row items-start gap-6">
-          <img src={user.avatar} alt={user.name} className="w-20 h-20 rounded-2xl bg-neutral-800 border border-neutral-700" />
+          <img src={user.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=user&backgroundColor=b6e3f4"} alt={fullName} className="w-20 h-20 rounded-2xl bg-neutral-800 border border-neutral-700" />
           <div className="flex-1">
-            <h2 className="text-2xl font-bold">{user.name}</h2>
-            <p className="text-neutral-500 text-sm mb-1">@{user.handle}</p>
+            <h2 className="text-2xl font-bold">{fullName}</h2>
+            <p className="text-neutral-500 text-sm mb-1">{user.email}</p>
             <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full bg-lime-500/10 text-lime-400 border border-lime-500/20">
-              <Shield size={12} /> {user.role}
+              <Shield size={12} /> {user.role === "premium" ? "Premium Client" : "Client"}
             </span>
           </div>
         </div>
 
         <div className="grid sm:grid-cols-2 gap-4 mt-8 pt-6 border-t border-neutral-800">
           {[
-            { label: "Email", value: user.email, icon: <Mail size={16} className="text-neutral-500" /> },
-            { label: "Phone", value: user.phone, icon: <Phone size={16} className="text-neutral-500" /> },
-            { label: "Location", value: user.location, icon: <MapPin size={16} className="text-neutral-500" /> },
-            { label: "Member Since", value: user.joined, icon: <Calendar size={16} className="text-neutral-500" /> },
+            { label: "Email", value: user.email || "N/A", icon: <Mail size={16} className="text-neutral-500" /> },
+            { label: "Phone", value: user.phone || "N/A", icon: <Phone size={16} className="text-neutral-500" /> },
+            { label: "Member Since", value: joinedDate, icon: <Calendar size={16} className="text-neutral-500" /> },
           ].map((item) => (
             <div key={item.label} className="flex items-center gap-3 p-3 rounded-xl bg-neutral-900/50 border border-neutral-800/50">
               <div className="w-9 h-9 rounded-lg bg-neutral-800 flex items-center justify-center shrink-0">
@@ -395,6 +419,15 @@ const AccountTab = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="mt-6 pt-6 border-t border-neutral-800">
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all"
+          >
+            <LogOut size={16} /> Sign Out
+          </button>
         </div>
       </div>
     </div>

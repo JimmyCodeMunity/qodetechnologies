@@ -23,7 +23,7 @@ const AdminSubscriptionsPage = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-h-screen">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">Subscriptions</h1>
         <div className="flex items-center gap-2">
@@ -32,8 +32,8 @@ const AdminSubscriptionsPage = () => {
               key={f}
               onClick={() => setFilter(f)}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${filter === f
-                  ? "bg-lime-500/10 text-lime-500 border-lime-500/20"
-                  : "bg-neutral-900 text-neutral-400 border-neutral-800 hover:border-neutral-700"
+                ? "bg-lime-500/10 text-lime-500 border-lime-500/20"
+                : "bg-neutral-900 text-neutral-400 border-neutral-800 hover:border-neutral-700"
                 }`}
             >
               {f === "all" ? "All" : f}
@@ -70,8 +70,8 @@ const AdminSubscriptionsPage = () => {
                     <button
                       onClick={() => toggleStatus(s.id)}
                       className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full border transition-all ${s.status === "active"
-                          ? "bg-lime-500/10 text-lime-400 border-lime-500/20"
-                          : "bg-neutral-800 text-neutral-500 border-neutral-700"
+                        ? "bg-lime-500/10 text-lime-400 border-lime-500/20"
+                        : "bg-neutral-800 text-neutral-500 border-neutral-700"
                         }`}
                     >
                       {s.status === "active" ? <CheckCircle2 size={12} /> : <XCircle size={12} />}

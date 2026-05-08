@@ -4,21 +4,30 @@ import { Link, useNavigate } from "react-router-dom";
 import { Lock, Mail, Eye, EyeOff, Shield } from "lucide-react";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
+import { useAuth } from "../../context/AuthContext";
+import { toast } from "sonner";
 
 const AdminLoginPage = () => {
   const navigate = useNavigate();
+  const { login, error: authError, clearError } = useAuth();
   const [showPass, setShowPass] = useState(false);
-  const [form, setForm] = useState({ email: "admin@qodenow.com", password: "admin123" });
-  const [error, setError] = useState("");
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [localError, setLocalError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    // Dummy auth
-    if (form.email === "admin@qodenow.com" && form.password === "admin123") {
+    setLocalError("");
+    clearError();
+    setSubmitting(true);
+    const result = await login(form.email, form.password);
+    setSubmitting(false);
+    if (result.success) {
+      toast.success("Welcome back, admin!");
       navigate("/admin/dashboard");
     } else {
-      setError("Invalid credentials. Try admin@qodenow.com / admin123");
+      setLocalError(result.message || "Invalid credentials");
+      toast.error(result.message || "Login failed.");
     }
   };
 
@@ -43,9 +52,9 @@ const AdminLoginPage = () => {
             <p className="text-neutral-400 text-sm mt-1">Sign in to manage Qode</p>
           </div>
 
-          {error && (
+          {(localError || authError) && (
             <div className="mb-4 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
-              {error}
+              {localError || authError}
             </div>
           )}
 
@@ -89,15 +98,19 @@ const AdminLoginPage = () => {
 
             <Button
               type="submit"
-              className="w-full py-3 h-auto text-base font-semibold text-black rounded-full bg-lime-500 hover:bg-lime-600 transition-all duration-500"
+              disabled={submitting}
+              className="w-full py-3 h-auto text-base font-semibold text-black rounded-full bg-lime-500 hover:bg-lime-600 transition-all duration-500 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Sign In
+              {submitting ? "Signing in..." : "Sign In"}
             </Button>
           </form>
 
-          <div className="mt-6 text-center">
+          <div className="flex items-center justify-between mt-2">
             <Link to="/" className="text-sm text-neutral-500 hover:text-lime-500 transition-colors">
               Back to Website
+            </Link>
+            <Link to="/admin/reset-password" className="text-sm text-lime-500 hover:text-lime-400 transition-colors">
+              Forgot password?
             </Link>
           </div>
         </div>

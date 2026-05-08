@@ -4,9 +4,9 @@ import {
   LayoutDashboard,
   Briefcase,
   Users,
-  MessageSquare,
   FolderKanban,
   Mail,
+  Target,
   CreditCard,
   Settings,
   Bell,
@@ -16,14 +16,15 @@ import {
   Menu,
   X,
 } from "lucide-react";
-import { adminUser } from "../data/dummyData";
+import { useAuth } from "../../context/AuthContext";
+import { toast } from "sonner";
 
 const sidebarItems = [
   { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard size={18} />, path: "/admin/dashboard" },
   { id: "projects", label: "Projects", icon: <FolderKanban size={18} />, path: "/admin/projects" },
   { id: "users", label: "Users", icon: <Users size={18} />, path: "/admin/users" },
+  { id: "leads", label: "Leads", icon: <Target size={18} />, path: "/admin/leads" },
   { id: "requests", label: "Requests", icon: <Briefcase size={18} />, path: "/admin/requests" },
-  { id: "communications", label: "Communications", icon: <MessageSquare size={18} />, path: "/admin/communications" },
   { id: "subscriptions", label: "Subscriptions", icon: <CreditCard size={18} />, path: "/admin/subscriptions" },
   { id: "contact", label: "Contact Forms", icon: <Mail size={18} />, path: "/admin/contact" },
   { id: "profile", label: "Profile", icon: <Settings size={18} />, path: "/admin/profile" },
@@ -32,8 +33,11 @@ const sidebarItems = [
 const AdminNavbar = () => {
   const [search, setSearch] = useState("");
   const location = useLocation();
+  const { admin, logout } = useAuth();
   const isLogin = location.pathname === "/admin/login";
   if (isLogin) return null;
+  const avatar = admin?.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=admin&backgroundColor=84cc16";
+  const name = admin?.name || "Admin";
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-neutral-800">
@@ -72,7 +76,7 @@ const AdminNavbar = () => {
             to="/admin/profile"
             className="w-9 h-9 rounded-xl overflow-hidden border border-neutral-800 bg-neutral-900 block"
           >
-            <img src={adminUser.avatar} alt="Admin" className="w-full h-full" />
+            <img src={avatar} alt={name} className="w-full h-full" />
           </Link>
         </div>
       </div>
@@ -83,8 +87,12 @@ const AdminNavbar = () => {
 const AdminSidebar = () => {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { admin, logout } = useAuth();
   const isLogin = location.pathname === "/admin/login";
   if (isLogin) return null;
+  const avatar = admin?.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=admin&backgroundColor=84cc16";
+  const name = admin?.name || "Admin";
+  const role = admin?.role || "Super Admin";
 
   return (
     <>
@@ -98,16 +106,16 @@ const AdminSidebar = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:sticky top-16 left-0 h-[calc(100vh-4rem)] w-64 shrink-0 bg-neutral-950 border-r border-neutral-800 z-40 transition-transform duration-300 ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        className={`fixed lg:sticky top-16 left-0 h-[calc(100vh-4rem)] w-64 shrink-0 bg-black border-r border-neutral-800 z-40 transition-transform duration-300 ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
           }`}
       >
         <div className="p-4 h-full flex flex-col overflow-y-auto">
           {/* Admin mini profile */}
           <div className="flex items-center gap-3 mb-6 pb-4 border-b border-neutral-800">
-            <img src={adminUser.avatar} alt={adminUser.name} className="w-10 h-10 rounded-xl bg-neutral-800" />
+            <img src={avatar} alt={name} className="w-10 h-10 rounded-xl bg-neutral-800" />
             <div className="min-w-0">
-              <p className="text-sm font-semibold truncate">{adminUser.name}</p>
-              <p className="text-xs text-lime-500 truncate">{adminUser.role}</p>
+              <p className="text-sm font-semibold truncate">{name}</p>
+              <p className="text-xs text-lime-500 truncate">{role}</p>
             </div>
           </div>
 
@@ -132,12 +140,18 @@ const AdminSidebar = () => {
             })}
           </nav>
 
-          <div className="mt-auto pt-4 border-t border-neutral-800">
+          <div className="mt-auto pt-4 border-t border-neutral-800 space-y-1">
+            <button
+              onClick={() => { logout(); toast.info("Logged out successfully."); }}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-red-400 hover:bg-neutral-900 transition-all text-left"
+            >
+              <LogOut size={18} /> Log Out
+            </button>
             <Link
               to="/"
               className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-400 hover:text-white hover:bg-neutral-900 transition-all"
             >
-              <LogOut size={18} /> Back to Site
+              Back to Site
             </Link>
           </div>
         </div>
@@ -167,7 +181,7 @@ const AdminLayout = ({ children }) => {
       <AdminNavbar />
       <div className="max-w-[1440px] mx-auto flex">
         <AdminSidebar />
-        <main className="flex-1 min-w-0 lg:ml-0 pt-20 pb-12 px-4 sm:px-6">
+        <main className="flex-1 min-w-0 lg:ml-0 pt-24 pb-12 px-4 sm:px-6">
           {children}
         </main>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import {
   FolderKanban,
@@ -6,74 +6,150 @@ import {
   Pencil,
   Trash2,
   ExternalLink,
-  Brain,
-  Layers,
+  Globe,
   Code2,
+  Smartphone,
+  Bot,
+  Palette,
+  Cloud,
+  Layers,
   Building2,
   Truck,
   ShoppingBag,
+  Brain,
   Fingerprint,
+  Zap,
   X,
-  Check,
+  Loader2,
 } from "lucide-react";
 import ConfirmDialog from "../components/ConfirmDialog";
-import { projects as initialProjects } from "../data/dummyData";
+import { toast } from "sonner";
+import apiConfig, { authFetch } from "../../config/api";
 
-const iconMap = {
-  Brain: <Brain size={20} />,
-  Layers: <Layers size={20} />,
-  Code2: <Code2 size={20} />,
-  Building2: <Building2 size={20} />,
-  Truck: <Truck size={20} />,
-  ShoppingBag: <ShoppingBag size={20} />,
-  Fingerprint: <Fingerprint size={20} />,
-};
+const iconOptions = [
+  { name: "Globe", component: Globe },
+  { name: "Code2", component: Code2 },
+  { name: "Smartphone", component: Smartphone },
+  { name: "Bot", component: Bot },
+  { name: "Palette", component: Palette },
+  { name: "Cloud", component: Cloud },
+  { name: "Layers", component: Layers },
+  { name: "Building2", component: Building2 },
+  { name: "Truck", component: Truck },
+  { name: "ShoppingBag", component: ShoppingBag },
+  { name: "Brain", component: Brain },
+  { name: "Fingerprint", component: Fingerprint },
+  { name: "Zap", component: Zap },
+];
 
 const accentColors = {
-  purple: { text: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20" },
-  orange: { text: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20" },
   lime: { text: "text-lime-400", bg: "bg-lime-500/10", border: "border-lime-500/20" },
+  orange: { text: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20" },
   blue: { text: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
-  yellow: { text: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20" },
+  purple: { text: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20" },
   pink: { text: "text-pink-400", bg: "bg-pink-500/10", border: "border-pink-500/20" },
   cyan: { text: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/20" },
+  yellow: { text: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20" },
 };
 
 const AdminProjectsPage = () => {
-  const [projects, setProjects] = useState(initialProjects);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState({ name: "", url: "", tagline: "", description: "", tags: "", accent: "purple", iconType: "Code2" });
+  const [saving, setSaving] = useState(false);
+  const [form, setForm] = useState({ name: "", description: "", type: "", icon: "Globe", accentColor: "lime", link: "", tags: "", featured: false, status: "In Progress", order: 0 });
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    try {
+      const res = await authFetch(apiConfig.getEndpoint('/api/v1/projects'), { credentials: "include" });
+      const data = await res.json();
+      if (data.success) setProjects(data.data);
+    } catch {
+      toast.error("Failed to load projects.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const openAdd = () => {
     setEditing("new");
-    setForm({ name: "", url: "", tagline: "", description: "", tags: "", accent: "purple", iconType: "Code2" });
+    setForm({ name: "", description: "", type: "Web Development", icon: "Globe", accentColor: "lime", link: "", tags: "", featured: false, status: "In Progress", order: 0 });
   };
 
   const openEdit = (p) => {
-    setEditing(p.id);
+    setEditing(p._id);
     setForm({ ...p, tags: p.tags.join(", ") });
   };
 
-  const save = () => {
-    const data = { ...form, tags: form.tags.split(",").map((t) => t.trim()) };
-    if (editing === "new") {
-      setProjects([...projects, { ...data, id: `proj-${Date.now()}`, status: "active" }]);
-    } else {
-      setProjects(projects.map((p) => (p.id === editing ? { ...p, ...data } : p)));
+  const save = async () => {
+    setSaving(true);
+    try {
+      const data = { ...form, tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean) };
+      const res = editing === "new"
+        ? await authFetch(apiConfig.getEndpoint('/api/v1/projects'), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(data),
+        })
+        : await authFetch(apiConfig.getEndpoint(`/api/v1/projects/${editing}`), {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(data),
+        });
+      const result = await res.json();
+      if (result.success) {
+        toast.success(editing === "new" ? "Project created" : "Project updated");
+        fetchProjects();
+        setEditing(null);
+      } else {
+        toast.error(result.message || "Failed to save.");
+      }
+    } catch {
+      toast.error("Network error.");
+    } finally {
+      setSaving(false);
     }
-    setEditing(null);
   };
 
   const [confirm, setConfirm] = useState({ open: false, id: null });
 
   const openConfirm = (id) => setConfirm({ open: true, id });
-  const handleDelete = () => {
-    setProjects(projects.filter((p) => p.id !== confirm.id));
-    setConfirm({ open: false, id: null });
+  const handleDelete = async () => {
+    try {
+      const res = await authFetch(apiConfig.getEndpoint(`/api/v1/projects/${confirm.id}`), {
+        method: "DELETE",
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success("Project deleted");
+        fetchProjects();
+      } else {
+        toast.error(data.message || "Failed to delete.");
+      }
+    } catch {
+      toast.error("Network error.");
+    } finally {
+      setConfirm({ open: false, id: null });
+    }
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[300px] text-neutral-500">
+        <Loader2 size={28} className="animate-spin mr-2" /> Loading projects...
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-h-screen">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Projects</h1>
         <button
@@ -86,10 +162,11 @@ const AdminProjectsPage = () => {
 
       <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
         {projects.map((p, i) => {
-          const colors = accentColors[p.accent] || accentColors.purple;
+          const colors = accentColors[p.accentColor] || accentColors.lime;
+          const Icon = iconOptions.find(opt => opt.name === p.icon)?.component || Globe;
           return (
             <motion.div
-              key={p.id}
+              key={p._id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
@@ -97,35 +174,37 @@ const AdminProjectsPage = () => {
             >
               <div className="flex items-start justify-between mb-3">
                 <div className={`w-10 h-10 rounded-xl ${colors.bg} ${colors.border} border flex items-center justify-center ${colors.text}`}>
-                  {iconMap[p.iconType] || <Code2 size={20} />}
+                  <Icon size={20} />
                 </div>
                 <div className="flex items-center gap-1">
                   <button onClick={() => openEdit(p)} className="p-1.5 rounded-lg hover:bg-neutral-800 text-neutral-400 hover:text-white transition-colors">
                     <Pencil size={14} />
                   </button>
-                  <button onClick={() => openConfirm(p.id)} className="p-1.5 rounded-lg hover:bg-neutral-800 text-neutral-400 hover:text-red-400 transition-colors">
+                  <button onClick={() => openConfirm(p._id)} className="p-1.5 rounded-lg hover:bg-neutral-800 text-neutral-400 hover:text-red-400 transition-colors">
                     <Trash2 size={14} />
                   </button>
                 </div>
               </div>
               <h3 className="font-semibold mb-1">{p.name}</h3>
-              <p className="text-xs text-neutral-500 mb-2">{p.tagline}</p>
+              <p className="text-xs text-neutral-500 mb-2">{p.type}</p>
               <p className="text-xs text-neutral-600 line-clamp-2 mb-3">{p.description}</p>
               <div className="flex flex-wrap gap-1.5 mb-3">
-                {p.tags.map((t) => (
+                {p.tags && p.tags.map((t) => (
                   <span key={t} className={`text-[10px] px-2 py-0.5 rounded-full border ${colors.bg} ${colors.text} ${colors.border}`}>
                     {t}
                   </span>
                 ))}
               </div>
-              <a
-                href={p.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs text-neutral-400 hover:text-lime-500 transition-colors"
-              >
-                <ExternalLink size={12} /> Visit
-              </a>
+              {p.link && (
+                <a
+                  href={p.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs text-neutral-400 hover:text-lime-500 transition-colors"
+                >
+                  <ExternalLink size={12} /> Visit
+                </a>
+              )}
             </motion.div>
           );
         })}
@@ -148,9 +227,9 @@ const AdminProjectsPage = () => {
             <div className="space-y-4">
               {[
                 { key: "name", label: "Name", type: "text" },
-                { key: "url", label: "URL", type: "url" },
-                { key: "tagline", label: "Tagline", type: "text" },
+                { key: "type", label: "Type", type: "select", options: ["Web Development", "Mobile Development", "AI & Automation", "UI/UX Design", "DevOps", "Other"] },
                 { key: "description", label: "Description", type: "textarea" },
+                { key: "link", label: "Link (URL)", type: "url" },
                 { key: "tags", label: "Tags (comma separated)", type: "text" },
               ].map((field) => (
                 <div key={field.key}>
@@ -161,6 +240,16 @@ const AdminProjectsPage = () => {
                       onChange={(e) => setForm({ ...form, [field.key]: e.target.value })}
                       className="w-full bg-neutral-900 border border-neutral-800 rounded-xl p-3 text-sm text-white placeholder:text-neutral-600 focus:outline-none focus:border-lime-500/50 min-h-[80px]"
                     />
+                  ) : field.type === "select" ? (
+                    <select
+                      value={form[field.key]}
+                      onChange={(e) => setForm({ ...form, [field.key]: e.target.value })}
+                      className="w-full bg-neutral-900 border border-neutral-800 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-lime-500/50"
+                    >
+                      {field.options.map((opt) => (
+                        <option key={opt} value={opt}>{opt}</option>
+                      ))}
+                    </select>
                   ) : (
                     <input
                       type={field.type}
@@ -175,8 +264,8 @@ const AdminProjectsPage = () => {
                 <div>
                   <label className="text-sm font-medium text-neutral-300 mb-1 block">Accent Color</label>
                   <select
-                    value={form.accent}
-                    onChange={(e) => setForm({ ...form, accent: e.target.value })}
+                    value={form.accentColor}
+                    onChange={(e) => setForm({ ...form, accentColor: e.target.value })}
                     className="w-full bg-neutral-900 border border-neutral-800 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-lime-500/50"
                   >
                     {Object.keys(accentColors).map((c) => (
@@ -187,19 +276,35 @@ const AdminProjectsPage = () => {
                 <div>
                   <label className="text-sm font-medium text-neutral-300 mb-1 block">Icon</label>
                   <select
-                    value={form.iconType}
-                    onChange={(e) => setForm({ ...form, iconType: e.target.value })}
+                    value={form.icon}
+                    onChange={(e) => setForm({ ...form, icon: e.target.value })}
                     className="w-full bg-neutral-900 border border-neutral-800 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-lime-500/50"
                   >
-                    {Object.keys(iconMap).map((i) => (
-                      <option key={i} value={i}>{i}</option>
+                    {iconOptions.map((opt) => (
+                      <option key={opt.name} value={opt.name}>{opt.name}</option>
                     ))}
                   </select>
                 </div>
               </div>
+
+              {/* Featured Checkbox */}
+              <div className="flex items-center gap-3 p-3 bg-neutral-900 rounded-xl border border-neutral-800">
+                <input
+                  type="checkbox"
+                  id="featured"
+                  checked={form.featured}
+                  onChange={(e) => setForm({ ...form, featured: e.target.checked })}
+                  className="w-4 h-4 rounded border-neutral-600 bg-neutral-800 text-lime-500 focus:ring-2 focus:ring-lime-500/20 focus:outline-none"
+                />
+                <label htmlFor="featured" className="text-sm font-medium text-neutral-300 cursor-pointer flex-1">
+                  <span className="text-lime-400">Featured Project</span>
+                  <span className="text-neutral-500 ml-2">Show on homepage</span>
+                </label>
+              </div>
+
               <div className="flex gap-3 pt-2">
-                <button onClick={save} className="flex-1 py-2.5 rounded-xl bg-lime-500 text-black font-semibold text-sm hover:bg-lime-600 transition-all">
-                  Save
+                <button onClick={save} disabled={saving} className="flex-1 py-2.5 rounded-xl bg-lime-500 text-black font-semibold text-sm hover:bg-lime-600 transition-all disabled:opacity-60 disabled:cursor-not-allowed">
+                  {saving ? <><Loader2 size={14} className="inline animate-spin mr-1" /> Saving...</> : "Save"}
                 </button>
                 <button onClick={() => setEditing(null)} className="flex-1 py-2.5 rounded-xl bg-neutral-800 text-white font-medium text-sm hover:bg-neutral-700 transition-all">
                   Cancel

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
-import { Mail, MapPin, Phone, Send, MessageSquare, Clock, CheckCircle2 } from "lucide-react";
+import { Mail, MapPin, Phone, Send, MessageSquare, Clock, CheckCircle2, Loader2 } from "lucide-react";
 import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
+import { Text } from "../ui/textarea";
 import { Button } from "../ui/button";
+import { toast } from "sonner";
+import apiConfig from "../../config/api";
 
 const contactInfo = [
   {
@@ -34,18 +36,40 @@ const contactInfo = [
 
 const ContactSection = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
+    phone: "",
+    subscribe: false,
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Contact Form:", formData);
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
+    setSubmitting(true);
+    try {
+      const res = await fetch(apiConfig.getEndpoint('/api/v1/contacts/submit'), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubmitted(true);
+        toast.success("Message sent successfully!");
+        setFormData({ name: "", email: "", subject: "", message: "", phone: "", subscribe: false });
+        setTimeout(() => setSubmitted(false), 4000);
+      } else {
+        toast.error(data.message || "Failed to send message.");
+      }
+    } catch {
+      toast.error("Network error. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -147,7 +171,7 @@ const ContactSection = () => {
                   <div className="w-16 h-16 rounded-full bg-lime-500/10 border border-lime-500/20 flex items-center justify-center mx-auto mb-4">
                     <CheckCircle2 size={32} className="text-lime-500" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">Message Sent!</h3>
+                  <h3 className="text-xl font-bold mb-2 text-lime-500">Message Sent!</h3>
                   <p className="text-neutral-400">Thank you for reaching out. We will get back to you shortly.</p>
                 </motion.div>
               ) : (
@@ -190,8 +214,19 @@ const ContactSection = () => {
                   </div>
 
                   <div className="space-y-2">
+                    <label className="text-sm font-medium text-neutral-300">Phone (Optional)</label>
+                    <Input
+                      type="tel"
+                      placeholder="+1 234 567 890"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
                     <label className="text-sm font-medium text-neutral-300">Message</label>
-                    <Textarea
+                    <Text
                       placeholder="Tell us about your project, timeline, and budget..."
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -200,11 +235,33 @@ const ContactSection = () => {
                     />
                   </div>
 
+                  <div className="flex items-center gap-3 text-sm text-neutral-400">
+                    <input
+                      type="checkbox"
+                      id="subscribe"
+                      checked={formData.subscribe}
+                      onChange={(e) => setFormData({ ...formData, subscribe: e.target.checked })}
+                      className="accent-lime-500 rounded w-4 h-4"
+                    />
+                    <label htmlFor="subscribe" className="cursor-pointer hover:text-white transition-colors">
+                      Subscribe to our newsletter for updates and tips
+                    </label>
+                  </div>
+
                   <Button
                     type="submit"
-                    className="w-full py-3 h-auto text-base font-semibold text-black rounded-full bg-lime-500 shadow-xs hover:bg-lime-600 transition-all duration-500"
+                    disabled={submitting}
+                    className="w-full py-3 h-auto text-base font-semibold text-black rounded-full bg-lime-500 shadow-xs hover:bg-lime-600 transition-all duration-500 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    Send Message <Send size={18} className="ml-2" />
+                    {submitting ? (
+                      <>
+                        <Loader2 size={18} className="mr-2 animate-spin" /> Sending...
+                      </>
+                    ) : (
+                      <>
+                        Send Message <Send size={18} className="ml-2" />
+                      </>
+                    )}
                   </Button>
                 </form>
               )}
