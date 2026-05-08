@@ -26,4 +26,23 @@ const getApiConfig = () => {
 };
 
 export const apiConfig = getApiConfig();
+
+// Helper for authenticated fetch — reads admin token from localStorage
+export const authFetch = async (url, options = {}) => {
+  const token = localStorage.getItem("qode_admin_token");
+  const headers = {
+    ...(options.headers || {}),
+  };
+
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  return fetch(url, {
+    ...options,
+    headers,
+    credentials: "include",
+  });
+};
+
 export default apiConfig;

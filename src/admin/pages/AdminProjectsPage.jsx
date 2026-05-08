@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { toast } from "sonner";
-import apiConfig from "../../config/api";
+import apiConfig, { authFetch } from "../../config/api";
 
 const iconOptions = [
   { name: "Globe", component: Globe },
@@ -65,7 +65,7 @@ const AdminProjectsPage = () => {
 
   const fetchProjects = async () => {
     try {
-      const res = await fetch(apiConfig.getEndpoint('/api/v1/projects'), { credentials: "include" });
+      const res = await authFetch(apiConfig.getEndpoint('/api/v1/projects'), { credentials: "include" });
       const data = await res.json();
       if (data.success) setProjects(data.data);
     } catch {
@@ -90,13 +90,13 @@ const AdminProjectsPage = () => {
     try {
       const data = { ...form, tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean) };
       const res = editing === "new"
-        ? await fetch(apiConfig.getEndpoint('/api/v1/projects'), {
+        ? await authFetch(apiConfig.getEndpoint('/api/v1/projects'), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(data),
         })
-        : await fetch(apiConfig.getEndpoint(`/api/v1/projects/${editing}`), {
+        : await authFetch(apiConfig.getEndpoint(`/api/v1/projects/${editing}`), {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -122,7 +122,7 @@ const AdminProjectsPage = () => {
   const openConfirm = (id) => setConfirm({ open: true, id });
   const handleDelete = async () => {
     try {
-      const res = await fetch(apiConfig.getEndpoint(`/api/v1/projects/${confirm.id}`), {
+      const res = await authFetch(apiConfig.getEndpoint(`/api/v1/projects/${confirm.id}`), {
         method: "DELETE",
         credentials: "include",
       });

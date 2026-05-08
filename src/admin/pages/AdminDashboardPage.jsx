@@ -19,7 +19,7 @@ import {
   FileText,
 } from "lucide-react";
 import { toast } from "sonner";
-import apiConfig from "../../config/api";
+import apiConfig, { authFetch } from "../../config/api";
 
 const fadeIn = { hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4 } } };
 
@@ -46,8 +46,8 @@ const AdminDashboardPage = () => {
   const fetchDashboardData = async () => {
     try {
       const [statsRes, activitiesRes] = await Promise.all([
-        fetch(apiConfig.getEndpoint("/api/v1/dashboard/stats"), { credentials: "include" }),
-        fetch(apiConfig.getEndpoint("/api/v1/dashboard/activities?limit=8"), { credentials: "include" }),
+        authFetch(apiConfig.getEndpoint("/api/v1/dashboard/stats"), { credentials: "include" }),
+        authFetch(apiConfig.getEndpoint("/api/v1/dashboard/activities?limit=8"), { credentials: "include" }),
       ]);
       const statsData = await statsRes.json();
       const activitiesData = await activitiesRes.json();
@@ -62,7 +62,7 @@ const AdminDashboardPage = () => {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetch(apiConfig.getEndpoint("/api/v1/settings"), { credentials: "include" });
+      const res = await authFetch(apiConfig.getEndpoint("/api/v1/settings"), { credentials: "include" });
       const data = await res.json();
       if (data.success) {
         setMaintenanceMode(data.data.maintenanceMode);
@@ -76,7 +76,7 @@ const AdminDashboardPage = () => {
   const toggleMaintenance = async () => {
     setTogglingMaintenance(true);
     try {
-      const res = await fetch(apiConfig.getEndpoint("/api/v1/settings/maintenance"), {
+      const res = await authFetch(apiConfig.getEndpoint("/api/v1/settings/maintenance"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -142,8 +142,8 @@ const AdminDashboardPage = () => {
               onClick={toggleMaintenance}
               disabled={togglingMaintenance}
               className={`px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-all ${maintenanceMode
-                  ? "bg-orange-500/10 border border-orange-500/30 text-orange-400 hover:bg-orange-500/20"
-                  : "bg-lime-500/10 border border-lime-500/30 text-lime-400 hover:bg-lime-500/20"
+                ? "bg-orange-500/10 border border-orange-500/30 text-orange-400 hover:bg-orange-500/20"
+                : "bg-lime-500/10 border border-lime-500/30 text-lime-400 hover:bg-lime-500/20"
                 }`}
             >
               {togglingMaintenance ? <Loader2 size={14} className="animate-spin" /> : maintenanceMode ? <ShieldAlert size={14} /> : <ShieldCheck size={14} />}

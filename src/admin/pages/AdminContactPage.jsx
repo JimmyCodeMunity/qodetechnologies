@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { Mail, MessageSquare, Trash2, Reply, CheckCircle2, Clock, Archive, Loader2 } from "lucide-react";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { toast } from "sonner";
-import apiConfig from "../../config/api";
+import apiConfig, { authFetch } from "../../config/api";
 
 const statusConfig = {
   new: { label: "New", color: "text-lime-400", bg: "bg-lime-500/10", border: "border-lime-500/20", icon: <Clock size={12} /> },
@@ -25,7 +25,7 @@ const AdminContactPage = () => {
 
   const fetchContacts = async () => {
     try {
-      const res = await fetch(apiConfig.getEndpoint('/api/v1/contacts'), {
+      const res = await authFetch(apiConfig.getEndpoint('/api/v1/contacts'), {
         credentials: "include",
       });
       const data = await res.json();
@@ -43,7 +43,7 @@ const AdminContactPage = () => {
 
   const updateStatus = async (id, status) => {
     try {
-      const res = await fetch(apiConfig.getEndpoint(`/api/v1/contacts/${id}`), {
+      const res = await authFetch(apiConfig.getEndpoint(`/api/v1/contacts/${id}`), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -68,7 +68,7 @@ const AdminContactPage = () => {
 
   const handleDelete = async () => {
     try {
-      const res = await fetch(apiConfig.getEndpoint(`/api/v1/contacts/${confirm.id}`), {
+      const res = await authFetch(apiConfig.getEndpoint(`/api/v1/contacts/${confirm.id}`), {
         method: "DELETE",
         credentials: "include",
       });
@@ -96,7 +96,7 @@ const AdminContactPage = () => {
     if (!reply.trim() || !selected) return;
     setReplying(true);
     try {
-      const res = await fetch(apiConfig.getEndpoint(`/api/v1/contacts/${selected._id}`), {
+      const res = await authFetch(apiConfig.getEndpoint(`/api/v1/contacts/${selected._id}`), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

@@ -30,7 +30,7 @@ import {
 } from "lucide-react";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { toast } from "sonner";
-import apiConfig from "../../config/api";
+import apiConfig, { authFetch } from "../../config/api";
 
 const statusConfig = {
   new: { label: "New", color: "text-lime-400", bg: "bg-lime-500/10", border: "border-lime-500/20", icon: <AlertCircle size={12} /> },
@@ -87,7 +87,7 @@ const AdminServiceRequestsPage = () => {
       if (filter.serviceType !== "all") params.append("serviceType", filter.serviceType);
       if (filter.priority !== "all") params.append("priority", filter.priority);
 
-      const res = await fetch(apiConfig.getEndpoint(`/api/v1/service-requests?${params}`), {
+      const res = await authFetch(apiConfig.getEndpoint(`/api/v1/service-requests?${params}`), {
         credentials: "include"
       });
       const data = await res.json();
@@ -108,7 +108,7 @@ const AdminServiceRequestsPage = () => {
 
   const fetchStats = async () => {
     try {
-      const res = await fetch(apiConfig.getEndpoint('/api/v1/service-requests/stats'), {
+      const res = await authFetch(apiConfig.getEndpoint('/api/v1/service-requests/stats'), {
         credentials: "include"
       });
       const data = await res.json();
@@ -122,7 +122,7 @@ const AdminServiceRequestsPage = () => {
 
   const updateStatus = async (id, status) => {
     try {
-      const res = await fetch(apiConfig.getEndpoint(`/api/v1/service-requests/${id}`), {
+      const res = await authFetch(apiConfig.getEndpoint(`/api/v1/service-requests/${id}`), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -143,7 +143,7 @@ const AdminServiceRequestsPage = () => {
 
   const handleDelete = async () => {
     try {
-      const res = await fetch(apiConfig.getEndpoint(`/api/v1/service-requests/${confirm.id}`), {
+      const res = await authFetch(apiConfig.getEndpoint(`/api/v1/service-requests/${confirm.id}`), {
         method: "DELETE",
         credentials: "include"
       });

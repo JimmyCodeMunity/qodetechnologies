@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { Users, Mail, Phone, Shield, UserCircle, X, Pencil, Trash2, Loader2, Search } from "lucide-react";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { toast } from "sonner";
-import apiConfig from "../../config/api";
+import apiConfig, { authFetch } from "../../config/api";
 
 const roleConfig = {
   client: { label: "Client", color: "text-neutral-400", bg: "bg-neutral-800", border: "border-neutral-700" },
@@ -24,7 +24,7 @@ const AdminUsersPage = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch(apiConfig.getEndpoint("/api/v1/admin/users/all"), { credentials: "include" });
+      const res = await authFetch(apiConfig.getEndpoint("/api/v1/admin/users/all"), { credentials: "include" });
       const data = await res.json();
       if (data.success) {
         setUsers(data.data);
@@ -45,7 +45,7 @@ const AdminUsersPage = () => {
 
   const save = async () => {
     try {
-      const res = await fetch(apiConfig.getEndpoint(`/api/v1/admin/users/${editing}`), {
+      const res = await authFetch(apiConfig.getEndpoint(`/api/v1/admin/users/${editing}`), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -68,7 +68,7 @@ const AdminUsersPage = () => {
 
   const handleDelete = async () => {
     try {
-      const res = await fetch(apiConfig.getEndpoint(`/api/v1/admin/users/${confirm.id}`), {
+      const res = await authFetch(apiConfig.getEndpoint(`/api/v1/admin/users/${confirm.id}`), {
         method: "DELETE",
         credentials: "include",
       });
@@ -89,7 +89,7 @@ const AdminUsersPage = () => {
   const toggleStatus = async (u) => {
     const newStatus = u.status === "active" ? "inactive" : "active";
     try {
-      const res = await fetch(apiConfig.getEndpoint(`/api/v1/admin/users/${u._id}`), {
+      const res = await authFetch(apiConfig.getEndpoint(`/api/v1/admin/users/${u._id}`), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { toast } from "sonner";
-import apiConfig from "../../config/api";
+import apiConfig, { authFetch } from "../../config/api";
 
 const statusConfig = {
   new: { label: "New", color: "text-lime-400", bg: "bg-lime-500/10", border: "border-lime-500/20", icon: <AlertCircle size={12} /> },
@@ -47,7 +47,7 @@ const AdminLeadsPage = () => {
       const params = new URLSearchParams();
       if (filterStatus !== "all") params.append("status", filterStatus);
       if (search) params.append("search", search);
-      const res = await fetch(apiConfig.getEndpoint(`/api/v1/leads?${params}`), { credentials: "include" });
+      const res = await authFetch(apiConfig.getEndpoint(`/api/v1/leads?${params}`), { credentials: "include" });
       const data = await res.json();
       if (data.success) setLeads(data.data);
     } catch {
@@ -59,7 +59,7 @@ const AdminLeadsPage = () => {
 
   const fetchStats = async () => {
     try {
-      const res = await fetch(apiConfig.getEndpoint("/api/v1/leads/stats"), { credentials: "include" });
+      const res = await authFetch(apiConfig.getEndpoint("/api/v1/leads/stats"), { credentials: "include" });
       const data = await res.json();
       if (data.success) setStats(data.data);
     } catch {
@@ -69,7 +69,7 @@ const AdminLeadsPage = () => {
 
   const updateLead = async (id, updates) => {
     try {
-      const res = await fetch(apiConfig.getEndpoint(`/api/v1/leads/${id}`), {
+      const res = await authFetch(apiConfig.getEndpoint(`/api/v1/leads/${id}`), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -90,7 +90,7 @@ const AdminLeadsPage = () => {
 
   const deleteLead = async () => {
     try {
-      const res = await fetch(apiConfig.getEndpoint(`/api/v1/leads/${confirm.id}`), {
+      const res = await authFetch(apiConfig.getEndpoint(`/api/v1/leads/${confirm.id}`), {
         method: "DELETE",
         credentials: "include",
       });
@@ -317,11 +317,10 @@ const AdminLeadsPage = () => {
                     <button
                       key={st}
                       onClick={() => updateLead(selected._id, { status: st })}
-                      className={`px-4 py-2 rounded-lg border-2 text-sm font-medium transition-all flex items-center gap-2 ${
-                        selected.status === st
+                      className={`px-4 py-2 rounded-lg border-2 text-sm font-medium transition-all flex items-center gap-2 ${selected.status === st
                           ? `${statusConfig[st].bg} ${statusConfig[st].color} ${statusConfig[st].border}`
                           : "border-neutral-700 text-neutral-400 hover:border-neutral-600"
-                      }`}
+                        }`}
                     >
                       {statusConfig[st].icon} {statusConfig[st].label}
                     </button>
