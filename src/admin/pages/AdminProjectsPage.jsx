@@ -286,6 +286,22 @@ const AdminProjectsPage = () => {
                   </select>
                 </div>
               </div>
+
+              {/* Featured Checkbox */}
+              <div className="flex items-center gap-3 p-3 bg-neutral-900 rounded-xl border border-neutral-800">
+                <input
+                  type="checkbox"
+                  id="featured"
+                  checked={form.featured}
+                  onChange={(e) => setForm({ ...form, featured: e.target.checked })}
+                  className="w-4 h-4 rounded border-neutral-600 bg-neutral-800 text-lime-500 focus:ring-2 focus:ring-lime-500/20 focus:outline-none"
+                />
+                <label htmlFor="featured" className="text-sm font-medium text-neutral-300 cursor-pointer flex-1">
+                  <span className="text-lime-400">Featured Project</span>
+                  <span className="text-neutral-500 ml-2">Show on homepage</span>
+                </label>
+              </div>
+
               <div className="flex gap-3 pt-2">
                 <button onClick={save} disabled={saving} className="flex-1 py-2.5 rounded-xl bg-lime-500 text-black font-semibold text-sm hover:bg-lime-600 transition-all disabled:opacity-60 disabled:cursor-not-allowed">
                   {saving ? <><Loader2 size={14} className="inline animate-spin mr-1" /> Saving...</> : "Save"}

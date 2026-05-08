@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import {
@@ -9,37 +9,148 @@ import {
   CreditCard,
   MessageSquare,
   TrendingUp,
-  Clock,
   CheckCircle2,
-  AlertCircle,
   ChevronRight,
+  Loader2,
+  ShieldAlert,
+  ShieldCheck,
+  Target,
+  UserPlus,
+  FileText,
 } from "lucide-react";
-import { projects, users, serviceRequests, contacts, subscriptions, messages, activityLog } from "../data/dummyData";
+import { toast } from "sonner";
+import apiConfig from "../../config/api";
 
 const fadeIn = { hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4 } } };
 
-const statCards = [
-  { label: "Projects", value: projects.length, icon: <FolderKanban size={18} />, color: "text-purple-400", bg: "bg-purple-500/10 border-purple-500/20", path: "/admin/projects" },
-  { label: "Users", value: users.length, icon: <Users size={18} />, color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20", path: "/admin/users" },
-  { label: "Requests", value: serviceRequests.length, icon: <Briefcase size={18} />, color: "text-orange-400", bg: "bg-orange-500/10 border-orange-500/20", path: "/admin/requests" },
-  { label: "Contacts", value: contacts.length, icon: <Mail size={18} />, color: "text-lime-400", bg: "bg-lime-500/10 border-lime-500/20", path: "/admin/contact" },
-  { label: "Subscriptions", value: subscriptions.filter((s) => s.status === "active").length, icon: <CreditCard size={18} />, color: "text-cyan-400", bg: "bg-cyan-500/10 border-cyan-500/20", path: "/admin/subscriptions" },
-  { label: "Messages", value: messages.filter((m) => !m.replied).length, icon: <MessageSquare size={18} />, color: "text-pink-400", bg: "bg-pink-500/10 border-pink-500/20", path: "/admin/communications" },
-];
+const activityIcons = {
+  lead: <Target size={14} className="text-lime-500" />,
+  service_request: <Briefcase size={14} className="text-orange-500" />,
+  contact: <Mail size={14} className="text-blue-500" />,
+  user: <UserPlus size={14} className="text-purple-500" />,
+};
 
 const AdminDashboardPage = () => {
-  const pendingReqs = serviceRequests.filter((r) => r.status === "pending").length;
-  const inProgressReqs = serviceRequests.filter((r) => r.status === "in-progress").length;
-  const completedReqs = serviceRequests.filter((r) => r.status === "completed").length;
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState(null);
+  const [activities, setActivities] = useState([]);
+  const [maintenanceMode, setMaintenanceMode] = useState(false);
+  const [maintenanceMessage, setMaintenanceMessage] = useState("");
+  const [togglingMaintenance, setTogglingMaintenance] = useState(false);
+
+  useEffect(() => {
+    fetchDashboardData();
+    fetchSettings();
+  }, []);
+
+  const fetchDashboardData = async () => {
+    try {
+      const [statsRes, activitiesRes] = await Promise.all([
+        fetch(apiConfig.getEndpoint("/api/v1/dashboard/stats"), { credentials: "include" }),
+        fetch(apiConfig.getEndpoint("/api/v1/dashboard/activities?limit=8"), { credentials: "include" }),
+      ]);
+      const statsData = await statsRes.json();
+      const activitiesData = await activitiesRes.json();
+      if (statsData.success) setStats(statsData.data);
+      if (activitiesData.success) setActivities(activitiesData.data);
+    } catch {
+      toast.error("Failed to load dashboard data.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchSettings = async () => {
+    try {
+      const res = await fetch(apiConfig.getEndpoint("/api/v1/settings"), { credentials: "include" });
+      const data = await res.json();
+      if (data.success) {
+        setMaintenanceMode(data.data.maintenanceMode);
+        setMaintenanceMessage(data.data.maintenanceMessage || "");
+      }
+    } catch {
+      console.error("Failed to fetch settings");
+    }
+  };
+
+  const toggleMaintenance = async () => {
+    setTogglingMaintenance(true);
+    try {
+      const res = await fetch(apiConfig.getEndpoint("/api/v1/settings/maintenance"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ maintenanceMode: !maintenanceMode }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setMaintenanceMode(data.data.maintenanceMode);
+        toast.success(`Maintenance mode ${data.data.maintenanceMode ? "enabled" : "disabled"}`);
+      } else {
+        toast.error(data.message || "Failed to toggle maintenance mode");
+      }
+    } catch {
+      toast.error("Network error.");
+    } finally {
+      setTogglingMaintenance(false);
+    }
+  };
+
+  const formatTimeAgo = (date) => {
+    const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+    if (seconds < 60) return "Just now";
+    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+    return `${Math.floor(seconds / 86400)}d ago`;
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px] text-neutral-500">
+        <Loader2 size={28} className="animate-spin mr-2" /> Loading dashboard...
+      </div>
+    );
+  }
+
+  const statCards = [
+    { label: "Projects", value: stats?.overview?.projects || 0, icon: <FolderKanban size={18} />, color: "text-purple-400", bg: "bg-purple-500/10 border-purple-500/20", path: "/admin/projects" },
+    { label: "Users", value: stats?.overview?.users || 0, icon: <Users size={18} />, color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20", path: "/admin/users" },
+    { label: "Leads", value: stats?.overview?.leads || 0, icon: <Target size={18} />, color: "text-lime-400", bg: "bg-lime-500/10 border-lime-500/20", path: "/admin/leads" },
+    { label: "Requests", value: stats?.overview?.serviceRequests || 0, icon: <Briefcase size={18} />, color: "text-orange-400", bg: "bg-orange-500/10 border-orange-500/20", path: "/admin/requests" },
+    { label: "Contacts", value: stats?.overview?.contacts || 0, icon: <Mail size={18} />, color: "text-cyan-400", bg: "bg-cyan-500/10 border-cyan-500/20", path: "/admin/contact" },
+    { label: "New Leads (This Month)", value: stats?.overview?.newLeadsThisMonth || 0, icon: <TrendingUp size={18} />, color: "text-green-400", bg: "bg-green-500/10 border-green-500/20", path: "/admin/leads" },
+  ];
+
+  const requestStatus = stats?.requestStatus || {};
 
   return (
     <div className="space-y-6">
-      {/* Welcome */}
+      {/* Welcome + Maintenance Toggle */}
       <motion.div variants={fadeIn} initial="hidden" animate="visible" className="bg-neutral-950 border border-neutral-800 rounded-2xl p-6 md:p-8">
-        <h1 className="text-2xl md:text-3xl font-bold mb-2">
-          Admin <span className="text-lime-500">Dashboard</span>
-        </h1>
-        <p className="text-neutral-400">Overview of everything happening at Qode.</p>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold mb-2">
+              Admin <span className="text-lime-500">Dashboard</span>
+            </h1>
+            <p className="text-neutral-400">Overview of everything happening at Qode.</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className={`text-sm font-medium ${maintenanceMode ? "text-orange-400" : "text-lime-400"}`}>
+              {maintenanceMode ? "Maintenance Mode ON" : "Maintenance Mode OFF"}
+            </span>
+            <button
+              onClick={toggleMaintenance}
+              disabled={togglingMaintenance}
+              className={`px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-all ${maintenanceMode
+                  ? "bg-orange-500/10 border border-orange-500/30 text-orange-400 hover:bg-orange-500/20"
+                  : "bg-lime-500/10 border border-lime-500/30 text-lime-400 hover:bg-lime-500/20"
+                }`}
+            >
+              {togglingMaintenance ? <Loader2 size={14} className="animate-spin" /> : maintenanceMode ? <ShieldAlert size={14} /> : <ShieldCheck size={14} />}
+              {maintenanceMode ? "Disable" : "Enable"}
+            </button>
+          </div>
+        </div>
       </motion.div>
 
       {/* Stats Grid */}
@@ -66,12 +177,12 @@ const AdminDashboardPage = () => {
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Request Breakdown */}
         <div className="lg:col-span-2 bg-neutral-950 border border-neutral-800 rounded-2xl p-6">
-          <h2 className="text-lg font-bold mb-5">Request Overview</h2>
+          <h2 className="text-lg font-bold mb-5">Request Status</h2>
           <div className="grid grid-cols-3 gap-4 mb-6">
             {[
-              { label: "Pending", value: pendingReqs, color: "text-orange-400", bg: "bg-orange-500/10 border-orange-500/20" },
-              { label: "In Progress", value: inProgressReqs, color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20" },
-              { label: "Completed", value: completedReqs, color: "text-lime-400", bg: "bg-lime-500/10 border-lime-500/20" },
+              { label: "Pending", value: requestStatus.pending || 0, color: "text-orange-400", bg: "bg-orange-500/10 border-orange-500/20" },
+              { label: "In Progress", value: requestStatus["in-progress"] || 0, color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20" },
+              { label: "Completed", value: requestStatus.completed || 0, color: "text-lime-400", bg: "bg-lime-500/10 border-lime-500/20" },
             ].map((s) => (
               <div key={s.label} className={`rounded-xl border p-4 ${s.bg} text-center`}>
                 <p className={`text-xl font-bold ${s.color}`}>{s.value}</p>
@@ -79,24 +190,7 @@ const AdminDashboardPage = () => {
               </div>
             ))}
           </div>
-          <div className="space-y-3">
-            {serviceRequests.slice(0, 3).map((req) => (
-              <div key={req.id} className="flex items-center justify-between p-3 rounded-xl bg-neutral-900/50 border border-neutral-800/50">
-                <div className="min-w-0">
-                  <p className="text-sm font-medium truncate">{req.service}</p>
-                  <p className="text-xs text-neutral-500">{req.client} &middot; {req.type}</p>
-                </div>
-                <span className={`text-[10px] font-medium px-2 py-1 rounded-full border ${
-                  req.status === "completed" ? "bg-lime-500/10 text-lime-400 border-lime-500/20" :
-                  req.status === "in-progress" ? "bg-blue-500/10 text-blue-400 border-blue-500/20" :
-                  "bg-orange-500/10 text-orange-400 border-orange-500/20"
-                }`}>
-                  {req.status}
-                </span>
-              </div>
-            ))}
-          </div>
-          <Link to="/admin/requests" className="mt-4 inline-flex items-center text-xs text-lime-500 hover:underline">
+          <Link to="/admin/requests" className="inline-flex items-center text-xs text-lime-500 hover:underline">
             View all requests <ChevronRight size={14} />
           </Link>
         </div>
@@ -105,48 +199,47 @@ const AdminDashboardPage = () => {
         <div className="bg-neutral-950 border border-neutral-800 rounded-2xl p-6">
           <h2 className="text-lg font-bold mb-5">Recent Activity</h2>
           <div className="space-y-4">
-            {activityLog.map((a) => (
-              <div key={a.id} className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-neutral-800 flex items-center justify-center shrink-0">
-                  {a.icon === "Mail" && <Mail size={14} className="text-lime-500" />}
-                  {a.icon === "Zap" && <TrendingUp size={14} className="text-blue-500" />}
-                  {a.icon === "UserPlus" && <Users size={14} className="text-purple-500" />}
-                  {a.icon === "MessageSquare" && <MessageSquare size={14} className="text-orange-500" />}
-                  {a.icon === "CheckCircle2" && <CheckCircle2 size={14} className="text-lime-500" />}
-                  {a.icon === "FolderPlus" && <FolderKanban size={14} className="text-cyan-500" />}
+            {activities.length === 0 ? (
+              <p className="text-sm text-neutral-500 text-center py-4">No recent activity</p>
+            ) : (
+              activities.slice(0, 6).map((a) => (
+                <div key={`${a.type}-${a.id}`} className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-neutral-800 flex items-center justify-center shrink-0">
+                    {activityIcons[a.type] || <FileText size={14} className="text-neutral-400" />}
+                  </div>
+                  <div>
+                    <p className="text-sm text-neutral-300 leading-snug">{a.title}</p>
+                    <p className="text-xs text-neutral-500 mt-0.5">{a.subtitle}</p>
+                    <p className="text-[10px] text-neutral-600 mt-0.5">{formatTimeAgo(a.date)}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm text-neutral-300 leading-snug">{a.text}</p>
-                  <p className="text-xs text-neutral-600 mt-0.5">{a.time}</p>
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </div>
 
-      {/* Unread Messages Preview */}
+      {/* Lead Status Overview */}
       <div className="bg-neutral-950 border border-neutral-800 rounded-2xl p-6">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-bold">Unread Messages</h2>
-          <Link to="/admin/communications" className="text-xs text-lime-500 hover:underline flex items-center gap-1">
-            All messages <ChevronRight size={14} />
+          <h2 className="text-lg font-bold">Lead Pipeline</h2>
+          <Link to="/admin/leads" className="text-xs text-lime-500 hover:underline flex items-center gap-1">
+            All leads <ChevronRight size={14} />
           </Link>
         </div>
-        <div className="space-y-3">
-          {messages.filter((m) => !m.replied).map((m) => (
-            <div key={m.id} className="flex items-center justify-between p-3 rounded-xl bg-neutral-900/50 border border-neutral-800/50 hover:border-neutral-700 transition-colors">
-              <div className="flex items-center gap-3 min-w-0">
-                <div className={`w-2 h-2 rounded-full shrink-0 ${m.channel === "whatsapp" ? "bg-lime-500" : "bg-blue-500"}`} />
-                <div>
-                  <p className="text-sm font-medium">{m.client || "Guest"}</p>
-                  <p className="text-xs text-neutral-500 truncate max-w-[200px] sm:max-w-sm">{m.message}</p>
-                </div>
-              </div>
-              <div className="text-right shrink-0">
-                <span className="text-[10px] text-neutral-600">{m.date}</span>
-                {!m.read && <span className="ml-2 w-2 h-2 inline-block rounded-full bg-lime-500" />}
-              </div>
+        <div className="grid grid-cols-4 md:grid-cols-7 gap-3">
+          {[
+            { label: "New", key: "new", color: "text-lime-400", bg: "bg-lime-500/10" },
+            { label: "Contacted", key: "contacted", color: "text-blue-400", bg: "bg-blue-500/10" },
+            { label: "Qualified", key: "qualified", color: "text-purple-400", bg: "bg-purple-500/10" },
+            { label: "Proposal", key: "proposal", color: "text-orange-400", bg: "bg-orange-500/10" },
+            { label: "Negotiation", key: "negotiation", color: "text-cyan-400", bg: "bg-cyan-500/10" },
+            { label: "Converted", key: "converted", color: "text-green-400", bg: "bg-green-500/10" },
+            { label: "Lost", key: "lost", color: "text-red-400", bg: "bg-red-500/10" },
+          ].map((s) => (
+            <div key={s.key} className={`rounded-xl border p-3 ${s.bg} text-center`}>
+              <p className={`text-lg font-bold ${s.color}`}>{stats?.leadStatus?.[s.key] || 0}</p>
+              <p className="text-[9px] text-neutral-500 mt-1 uppercase tracking-wider">{s.label}</p>
             </div>
           ))}
         </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ExternalLink, Layers, Globe, Code2, Truck, Brain, Building2, ShoppingBag, Fingerprint, Loader2, Smartphone, Bot, Palette, Cloud, Zap } from "lucide-react";
+import { ArrowRight, ExternalLink, Layers, Globe, Code2, Truck, Brain, Building2, ShoppingBag, Fingerprint, Loader2, Smartphone, Bot, Palette, Cloud, Zap, Heart, TrendingUp, AlertCircle } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/sections/Footer";
 import WhatsAppButton from "../components/WhatsAppButton";
@@ -56,6 +56,8 @@ const iconMap = {
   Brain,
   Fingerprint,
   Zap,
+  Heart,
+  TrendingUp,
 };
 
 const accentColors = {
@@ -68,9 +70,92 @@ const accentColors = {
   yellow: { text: "text-yellow-400", border: "group-hover:border-yellow-500/40", bg: "bg-yellow-500/10", borderBg: "border-yellow-500/20", gradient: "from-yellow-500/20 to-amber-500/10" },
 };
 
+// Fallback projects for when server is down
+const fallbackProjects = [
+  {
+    _id: "1",
+    name: "E-Commerce Platform",
+    type: "Web Development",
+    description: "A modern e-commerce platform with real-time inventory management, secure payment processing, and responsive design for optimal user experience across all devices.",
+    icon: "ShoppingBag",
+    accentColor: "lime",
+    link: "https://example.com",
+    tags: ["React", "Node.js", "MongoDB", "Stripe"],
+    featured: true,
+    status: "Completed",
+    order: 1
+  },
+  {
+    _id: "2",
+    name: "AI Task Manager",
+    type: "AI & Automation",
+    description: "Intelligent task management system with AI-powered prioritization, natural language processing, and automated workflow optimization.",
+    icon: "Bot",
+    accentColor: "blue",
+    link: "https://example.com",
+    tags: ["Python", "TensorFlow", "React", "PostgreSQL"],
+    featured: true,
+    status: "In Progress",
+    order: 2
+  },
+  {
+    _id: "3",
+    name: "Mobile Banking App",
+    type: "Mobile Development",
+    description: "Secure and intuitive mobile banking application with biometric authentication, real-time transactions, and comprehensive financial management tools.",
+    icon: "Smartphone",
+    accentColor: "purple",
+    link: "https://example.com",
+    tags: ["React Native", "Firebase", "Node.js", "Security"],
+    featured: true,
+    status: "Completed",
+    order: 3
+  },
+  {
+    _id: "4",
+    name: "Healthcare Dashboard",
+    type: "Web Development",
+    description: "Comprehensive healthcare management dashboard with patient records, appointment scheduling, and real-time analytics for medical professionals.",
+    icon: "Heart",
+    accentColor: "cyan",
+    link: "https://example.com",
+    tags: ["Vue.js", "Express", "MySQL", "Chart.js"],
+    featured: false,
+    status: "In Progress",
+    order: 4
+  },
+  {
+    _id: "5",
+    name: "Smart Home IoT",
+    type: "AI & Automation",
+    description: "Integrated smart home automation system with voice control, energy monitoring, and predictive maintenance capabilities.",
+    icon: "Cloud",
+    accentColor: "orange",
+    link: "https://example.com",
+    tags: ["IoT", "Python", "AWS", "Machine Learning"],
+    featured: false,
+    status: "Completed",
+    order: 5
+  },
+  {
+    _id: "6",
+    name: "Social Media Analytics",
+    type: "Web Development",
+    description: "Advanced analytics platform for social media management with sentiment analysis, engagement tracking, and automated reporting.",
+    icon: "TrendingUp",
+    accentColor: "pink",
+    link: "https://example.com",
+    tags: ["React", "Python", "NLP", "Data Visualization"],
+    featured: false,
+    status: "In Progress",
+    order: 6
+  }
+];
+
 const ProjectsPage = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [usingFallback, setUsingFallback] = useState(false);
 
   useEffect(() => {
     fetchProjects();
@@ -80,11 +165,18 @@ const ProjectsPage = () => {
     try {
       const res = await fetch(apiConfig.getEndpoint('/api/v1/projects'));
       const data = await res.json();
-      if (data.success) {
+      if (data.success && data.data && data.data.length > 0) {
         setProjects(data.data);
+        setUsingFallback(false);
+      } else {
+        // Use fallback if no data or empty response
+        setProjects(fallbackProjects);
+        setUsingFallback(true);
       }
-    } catch {
-      console.error("Failed to fetch projects");
+    } catch (error) {
+      console.error("Failed to fetch projects, using fallback:", error);
+      setProjects(fallbackProjects);
+      setUsingFallback(true);
     } finally {
       setLoading(false);
     }

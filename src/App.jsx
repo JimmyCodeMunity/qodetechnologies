@@ -5,6 +5,7 @@ import AboutPage from './pages/AboutPage'
 import BlogPage from './pages/BlogPage'
 import BlogPostPage from './pages/BlogPostPage'
 import ProjectsPage from './pages/ProjectsPage'
+import ServiceRequestPage from './pages/ServiceRequestPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
@@ -18,8 +19,8 @@ import AdminLoginPage from './admin/pages/AdminLoginPage'
 import AdminDashboardPage from './admin/pages/AdminDashboardPage'
 import AdminProjectsPage from './admin/pages/AdminProjectsPage'
 import AdminUsersPage from './admin/pages/AdminUsersPage'
+import AdminLeadsPage from './admin/pages/AdminLeadsPage'
 import AdminRequestsPage from './admin/pages/AdminRequestsPage'
-import AdminCommunicationsPage from './admin/pages/AdminCommunicationsPage'
 import AdminSubscriptionsPage from './admin/pages/AdminSubscriptionsPage'
 import AdminContactPage from './admin/pages/AdminContactPage'
 import AdminProfilePage from './admin/pages/AdminProfilePage'
@@ -37,6 +38,7 @@ function App() {
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/service-request" element={<ServiceRequestPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
@@ -50,7 +52,7 @@ function App() {
         <Route path="/admin/projects" element={<ProtectedRoute><AdminLayout><AdminProjectsPage /></AdminLayout></ProtectedRoute>} />
         <Route path="/admin/users" element={<ProtectedRoute><AdminLayout><AdminUsersPage /></AdminLayout></ProtectedRoute>} />
         <Route path="/admin/requests" element={<ProtectedRoute><AdminLayout><AdminRequestsPage /></AdminLayout></ProtectedRoute>} />
-        <Route path="/admin/communications" element={<ProtectedRoute><AdminLayout><AdminCommunicationsPage /></AdminLayout></ProtectedRoute>} />
+        <Route path="/admin/leads" element={<ProtectedRoute><AdminLayout><AdminLeadsPage /></AdminLayout></ProtectedRoute>} />
         <Route path="/admin/subscriptions" element={<ProtectedRoute><AdminLayout><AdminSubscriptionsPage /></AdminLayout></ProtectedRoute>} />
         <Route path="/admin/contact" element={<ProtectedRoute><AdminLayout><AdminContactPage /></AdminLayout></ProtectedRoute>} />
         <Route path="/admin/profile" element={<ProtectedRoute><AdminLayout><AdminProfilePage /></AdminLayout></ProtectedRoute>} />

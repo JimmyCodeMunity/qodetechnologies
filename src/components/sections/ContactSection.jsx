@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import { Mail, MapPin, Phone, Send, MessageSquare, Clock, CheckCircle2, Loader2 } from "lucide-react";
 import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
+import { Text } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 import apiConfig from "../../config/api";
@@ -226,7 +226,7 @@ const ContactSection = () => {
 
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-neutral-300">Message</label>
-                    <Textarea
+                    <Text
                       placeholder="Tell us about your project, timeline, and budget..."
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -235,15 +235,18 @@ const ContactSection = () => {
                     />
                   </div>
 
-                  <label className="flex items-center gap-3 text-sm text-neutral-400 cursor-pointer hover:text-white transition-colors">
+                  <div className="flex items-center gap-3 text-sm text-neutral-400">
                     <input
                       type="checkbox"
+                      id="subscribe"
                       checked={formData.subscribe}
                       onChange={(e) => setFormData({ ...formData, subscribe: e.target.checked })}
                       className="accent-lime-500 rounded w-4 h-4"
                     />
-                    Subscribe to our newsletter for updates and tips
-                  </label>
+                    <label htmlFor="subscribe" className="cursor-pointer hover:text-white transition-colors">
+                      Subscribe to our newsletter for updates and tips
+                    </label>
+                  </div>
 
                   <Button
                     type="submit"
