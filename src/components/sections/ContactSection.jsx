@@ -5,6 +5,7 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
+import apiConfig from "../../config/api";
 
 const contactInfo = [
   {
@@ -49,8 +50,7 @@ const ContactSection = () => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
-      const res = await fetch(`${API_BASE}/api/v1/contacts/submit`, {
+      const res = await fetch(apiConfig.getEndpoint('/api/v1/contacts/submit'), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

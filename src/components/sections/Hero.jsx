@@ -66,45 +66,7 @@ const Hero = () => {
           autoResumeDelay={3000}
           autoRampDuration={0.6}
         />
-        {/* <Hyperspeed
-          effectOptions={{
-            onSpeedUp: () => {},
-            onSlowDown: () => {},
-            distortion: "turbulentDistortion",
-            length: 400,
-            roadWidth: 10,
-            islandWidth: 2,
-            lanesPerRoad: 4,
-            fov: 90,
-            fovSpeedUp: 150,
-            speedUp: 2,
-            carLightsFade: 0.4,
-            totalSideLightSticks: 20,
-            lightPairsPerRoadWay: 40,
-            shoulderLinesWidthPercentage: 0.05,
-            brokenLinesWidthPercentage: 0.1,
-            brokenLinesLengthPercentage: 0.5,
-            lightStickWidth: [0.12, 0.5],
-            lightStickHeight: [1.3, 1.7],
-            movingAwaySpeed: [60, 80],
-            movingCloserSpeed: [-120, -160],
-            carLightsLength: [400 * 0.03, 400 * 0.2],
-            carLightsRadius: [0.05, 0.14],
-            carWidthPercentage: [0.3, 0.5],
-            carShiftX: [-0.8, 0.8],
-            carFloorSeparation: [0, 5],
-            colors: {
-              roadColor: 0x080808,
-              islandColor: 0x0a0a0a,
-              background: 0x000000,
-              shoulderLines: 0xffffff,
-              brokenLines: 0xffffff,
-              leftCars: [0x84cc16, 0x6750a2, 0xc247ac],
-              rightCars: [0x03b3c3, 0x0e5ea5, 0x324555],
-              sticks: 0x03b3c3,
-            },
-          }}
-        /> */}
+
       </div>
       <section className="pt-8 w-full lg:pt-32 bg-transparent">
         <div className="w-full py-6">
@@ -166,28 +128,7 @@ const Hero = () => {
             />
           </div>
           <div className="md:flex-row md:space-x-4 w-full mx-auto md:inline-flex flex-col items-center justify-center">
-            {/* <Button
-              href="javascript:;"
-              className="w-full md:w-auto md:mb-14 mb-5 inline-flex items-center justify-center py-6 px-7 text-base font-semibold text-center text-white rounded-full bg-lime-500 shadow-xs hover:bg-lime-600 transition-all duration-500"
-            >
-              Request A Service
-              <svg
-                className="ml-2"
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M7.5 15L11.0858 11.4142C11.7525 10.7475 12.0858 10.4142 12.0858 10C12.0858 9.58579 11.7525 9.25245 11.0858 8.58579L7.5 5"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </Button> */}
+
             <ServiceDialog
               title="Request for a service"
               className="w-full md:w-auto md:mb-14 mb-5 inline-flex items-center justify-center py-6 px-7 text-base font-semibold text-center text-white rounded-full bg-lime-500 shadow-xs hover:bg-lime-600 transition-all duration-500"

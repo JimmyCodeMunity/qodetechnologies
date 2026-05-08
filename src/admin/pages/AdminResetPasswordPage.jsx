@@ -5,8 +5,7 @@ import { Eye, EyeOff, ArrowRight, KeyRound, Check } from "lucide-react";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import { toast } from "sonner";
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+import apiConfig from "../../config/api";
 
 const AdminResetPasswordPage = () => {
   const navigate = useNavigate();
@@ -34,7 +33,7 @@ const AdminResetPasswordPage = () => {
     }
     setSubmitting(true);
     try {
-      const res = await fetch(`${API_BASE}/api/v1/admin/reset-password`, {
+      const res = await fetch(apiConfig.getEndpoint('/api/v1/admin/reset-password'), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

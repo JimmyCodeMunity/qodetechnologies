@@ -7,7 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "preview:host": "vite preview --host",
+    "dev:prod": "vite --mode production",
+    "build:prod": "vite build --mode production",
+    "preview:prod": "vite preview --mode production"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",

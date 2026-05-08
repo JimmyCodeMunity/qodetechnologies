@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { toast } from "sonner";
+import apiConfig from "../../config/api";
 
 const iconOptions = [
   { name: "Globe", component: Globe },
@@ -58,15 +59,13 @@ const AdminProjectsPage = () => {
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({ name: "", description: "", type: "", icon: "Globe", accentColor: "lime", link: "", tags: "", featured: false, status: "In Progress", order: 0 });
 
-  const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
-
   useEffect(() => {
     fetchProjects();
   }, []);
 
   const fetchProjects = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/v1/projects`, { credentials: "include" });
+      const res = await fetch(apiConfig.getEndpoint('/api/v1/projects'), { credentials: "include" });
       const data = await res.json();
       if (data.success) setProjects(data.data);
     } catch {
@@ -91,13 +90,13 @@ const AdminProjectsPage = () => {
     try {
       const data = { ...form, tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean) };
       const res = editing === "new"
-        ? await fetch(`${API_BASE}/api/v1/projects`, {
+        ? await fetch(apiConfig.getEndpoint('/api/v1/projects'), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(data),
         })
-        : await fetch(`${API_BASE}/api/v1/projects/${editing}`, {
+        : await fetch(apiConfig.getEndpoint(`/api/v1/projects/${editing}`), {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -123,7 +122,7 @@ const AdminProjectsPage = () => {
   const openConfirm = (id) => setConfirm({ open: true, id });
   const handleDelete = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/v1/projects/${confirm.id}`, {
+      const res = await fetch(apiConfig.getEndpoint(`/api/v1/projects/${confirm.id}`), {
         method: "DELETE",
         credentials: "include",
       });

@@ -5,6 +5,7 @@ import { ArrowRight, ExternalLink, Layers, Globe, Code2, Truck, Brain, Building2
 import Navbar from "../components/Navbar";
 import Footer from "../components/sections/Footer";
 import WhatsAppButton from "../components/WhatsAppButton";
+import apiConfig from "../config/api";
 
 const navItems = [
   {
@@ -70,7 +71,6 @@ const accentColors = {
 const ProjectsPage = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   useEffect(() => {
     fetchProjects();
@@ -78,7 +78,7 @@ const ProjectsPage = () => {
 
   const fetchProjects = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/v1/projects`);
+      const res = await fetch(apiConfig.getEndpoint('/api/v1/projects'));
       const data = await res.json();
       if (data.success) {
         setProjects(data.data);

@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { toast } from "sonner";
+import apiConfig from "../config/api";
 
 const AuthContext = createContext(null);
 
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
     setError(null);
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/v1/admin/login`, {
+      const res = await fetch(apiConfig.getEndpoint('/api/v1/admin/login'), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -90,13 +90,13 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     setError(null);
     persist(null, null);
-    fetch(`${API_BASE}/api/v1/admin/logout`, { method: "POST", credentials: "include" }).catch(() => {});
+    fetch(apiConfig.getEndpoint('/api/v1/admin/logout'), { method: "POST", credentials: "include" }).catch(() => { });
   };
 
   const getAdminProfile = async (id) => {
     setError(null);
     try {
-      const res = await fetch(`${API_BASE}/api/v1/admin/${id}`, {
+      const res = await fetch(apiConfig.getEndpoint(`/api/v1/admin/${id}`), {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -117,7 +117,7 @@ export const AuthProvider = ({ children }) => {
     setError(null);
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/v1/admin/${id}`, {
+      const res = await fetch(apiConfig.getEndpoint(`/api/v1/admin/${id}`), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

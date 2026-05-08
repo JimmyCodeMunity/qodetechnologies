@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { toast } from "sonner";
+import apiConfig from "../config/api";
 
 const UserAuthContext = createContext(null);
 
@@ -41,7 +41,7 @@ export const UserAuthProvider = ({ children }) => {
   };
 
   const apiRequest = async (url, options = {}) => {
-    const res = await fetch(`${API_BASE}${url}`, {
+    const res = await fetch(apiConfig.getEndpoint(url), {
       ...options,
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export const UserAuthProvider = ({ children }) => {
     setError(null);
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/v1/users/register`, {
+      const res = await fetch(apiConfig.getEndpoint('/api/v1/users/register'), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -86,7 +86,7 @@ export const UserAuthProvider = ({ children }) => {
     setError(null);
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/v1/users/login`, {
+      const res = await fetch(apiConfig.getEndpoint('/api/v1/users/login'), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -116,7 +116,7 @@ export const UserAuthProvider = ({ children }) => {
     setToken(null);
     setError(null);
     persist(null, null);
-    fetch(`${API_BASE}/api/v1/users/logout`, { method: "POST", credentials: "include" }).catch(() => {});
+    fetch(apiConfig.getEndpoint('/api/v1/users/logout'), { method: "POST", credentials: "include" }).catch(() => { });
   };
 
   const forgotPassword = async (email) => {
