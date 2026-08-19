@@ -15,10 +15,10 @@ const Footer = () => {
               <p className="py-8 text-sm text-gray-500 lg:max-w-xs text-center lg:text-left">
                 Powering digital transformation for startups and enterprises worldwide. Ready to build something extraordinary?
               </p>
-              <ServiceDialog
+              {/* <ServiceDialog
                 title="Contact us"
                 className="py-2.5 px-5 h-9 block w-fit bg-lime-500 rounded-full shadow-sm text-xs text-white mx-auto transition-all duration-500 hover:bg-lime-600 lg:mx-0"
-              />
+              /> */}
             </div>
 
             <div className="lg:mx-auto text-left">

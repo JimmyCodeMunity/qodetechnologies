@@ -26,11 +26,13 @@ import AdminContactPage from './admin/pages/AdminContactPage'
 import AdminProfilePage from './admin/pages/AdminProfilePage'
 import AdminResetPasswordPage from './admin/pages/AdminResetPasswordPage'
 import ProtectedRoute from './admin/components/ProtectedRoute'
+import ScrollToTop from './components/ScrollToTop'
 
 function App() {
   return (
     <>
       <LoadingScreen />
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/services" element={<ServicesPage />} />

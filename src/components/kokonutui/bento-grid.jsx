@@ -308,7 +308,7 @@ const TypingCodeFeature = ({ text }) => {
   return (
     <div className="mt-3 relative">
       <div className="flex items-center gap-2 mb-2">
-        <div className="text-xs text-green-500 dark:text-neutral-400">
+        <div className="text-xs text-lime-500 dark:text-neutral-400">
           qode.ts
         </div>
       </div>

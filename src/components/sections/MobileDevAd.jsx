@@ -22,6 +22,69 @@ const features = [
   },
 ];
 
+
+const motionMock = () => {
+  return <div className="relative w-72 h-[500px] md:w-80 md:h-[540px] rounded-[3rem] border-4 border-neutral-800 bg-neutral-950 shadow-2xl overflow-hidden">
+    {/* Notch */}
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 bg-neutral-800 rounded-b-xl z-20" />
+
+    {/* Screen Content */}
+    <div className="absolute inset-0 p-6 pt-10 flex flex-col justify-between">
+      <div className="space-y-4">
+        <motion.div
+          animate={{ y: [0, -6, 0] }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="w-full h-32 rounded-2xl bg-gradient-to-br from-lime-500/20 to-orange-500/20 border border-lime-500/20 flex flex-col justify-end p-4"
+        >
+          <div className="w-12 h-12 rounded-full bg-lime-500 flex items-center justify-center mb-3">
+            <Zap size={20} className="text-black" />
+          </div>
+          <div className="h-3 w-3/4 bg-white/20 rounded" />
+          <div className="h-2 w-1/2 bg-white/10 rounded mt-2" />
+        </motion.div>
+
+        <motion.div
+          animate={{ y: [0, -4, 0] }}
+          transition={{
+            duration: 2.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 0.3,
+          }}
+          className="w-full h-24 rounded-2xl bg-gradient-to-br from-orange-500/20 to-blue-500/20 border border-orange-500/20 flex items-center gap-3 px-4"
+        >
+          <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center">
+            <Globe size={18} className="text-black" />
+          </div>
+          <div className="space-y-2">
+            <div className="h-2 w-24 bg-white/20 rounded" />
+            <div className="h-2 w-16 bg-white/10 rounded" />
+          </div>
+        </motion.div>
+      </div>
+
+      <motion.div
+        animate={{ scale: [1, 1.03, 1] }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        className="w-full py-3 rounded-xl bg-lime-500 text-black font-semibold text-center text-sm"
+      >
+        Launch My App
+      </motion.div>
+    </div>
+
+    {/* Glow behind phone */}
+    <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-56 h-56 bg-lime-500/20 rounded-full blur-[80px] pointer-events-none" />
+  </div>
+}
+
 const MobileDevAd = () => {
   return (
     <section className="w-full bg-black py-20 px-4 sm:px-6 overflow-hidden">
@@ -87,7 +150,7 @@ const MobileDevAd = () => {
             >
               <ServiceDialog
                 title="Start Your Mobile Project"
-                className="inline-flex items-center justify-center py-3 px-7 text-base font-semibold text-center text-black rounded-full bg-lime-500 shadow-xs hover:bg-lime-600 transition-all duration-500"
+                className="inline-flex items-center justify-center py-3 px-7 text-base font-semibold text-center text-white rounded-full bg-lime-500 shadow-xs hover:bg-lime-600 transition-all duration-500"
               />
               <Link
                 to="/services"
@@ -106,65 +169,10 @@ const MobileDevAd = () => {
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="relative flex justify-center items-center"
           >
-            <div className="relative w-72 h-[500px] md:w-80 md:h-[540px] rounded-[3rem] border-4 border-neutral-800 bg-neutral-950 shadow-2xl overflow-hidden">
-              {/* Notch */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 bg-neutral-800 rounded-b-xl z-20" />
+            <img src="./images/mock.png" alt="" />
 
-              {/* Screen Content */}
-              <div className="absolute inset-0 p-6 pt-10 flex flex-col justify-between">
-                <div className="space-y-4">
-                  <motion.div
-                    animate={{ y: [0, -6, 0] }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                    className="w-full h-32 rounded-2xl bg-gradient-to-br from-lime-500/20 to-orange-500/20 border border-lime-500/20 flex flex-col justify-end p-4"
-                  >
-                    <div className="w-12 h-12 rounded-full bg-lime-500 flex items-center justify-center mb-3">
-                      <Zap size={20} className="text-black" />
-                    </div>
-                    <div className="h-3 w-3/4 bg-white/20 rounded" />
-                    <div className="h-2 w-1/2 bg-white/10 rounded mt-2" />
-                  </motion.div>
+            {/* mock */}
 
-                  <motion.div
-                    animate={{ y: [0, -4, 0] }}
-                    transition={{
-                      duration: 2.5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 0.3,
-                    }}
-                    className="w-full h-24 rounded-2xl bg-gradient-to-br from-orange-500/20 to-blue-500/20 border border-orange-500/20 flex items-center gap-3 px-4"
-                  >
-                    <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center">
-                      <Globe size={18} className="text-black" />
-                    </div>
-                    <div className="space-y-2">
-                      <div className="h-2 w-24 bg-white/20 rounded" />
-                      <div className="h-2 w-16 bg-white/10 rounded" />
-                    </div>
-                  </motion.div>
-                </div>
-
-                <motion.div
-                  animate={{ scale: [1, 1.03, 1] }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="w-full py-3 rounded-xl bg-lime-500 text-black font-semibold text-center text-sm"
-                >
-                  Launch My App
-                </motion.div>
-              </div>
-
-              {/* Glow behind phone */}
-              <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-56 h-56 bg-lime-500/20 rounded-full blur-[80px] pointer-events-none" />
-            </div>
           </motion.div>
         </div>
       </div>

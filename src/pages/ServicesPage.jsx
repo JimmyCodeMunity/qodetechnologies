@@ -5,6 +5,7 @@ import Services from "../components/sections/Services";
 import Footer from "../components/sections/Footer";
 import ServiceDialog from "../components/ui/ServiceDialog";
 import WhatsAppButton from "../components/WhatsAppButton";
+import SplashCursor from "../components/ui/SplashCursor";
 
 const navItems = [
   {
@@ -44,6 +45,7 @@ const navItems = [
 const ServicesPage = () => {
   return (
     <div className="bg-black min-h-screen text-white">
+      <SplashCursor />
       <Navbar
         logoAlt="Qode Logo"
         items={navItems}
@@ -71,7 +73,7 @@ const ServicesPage = () => {
             </p>
             <ServiceDialog
               title="Request Service Today!!"
-              className="inline-flex items-center justify-center py-3 px-7 text-base font-semibold text-center text-black rounded-full bg-lime-500 shadow-xs hover:bg-lime-600 transition-all duration-500"
+              className="inline-flex items-center justify-center py-3 px-7 text-base font-semibold text-center text-white rounded-full bg-lime-500 shadow-xs hover:bg-lime-600 transition-all duration-500"
             />
           </motion.div>
         </div>
@@ -95,7 +97,7 @@ const ServicesPage = () => {
             </p>
             <ServiceDialog
               title="Start Your Project"
-              className="inline-flex items-center justify-center py-3 px-7 text-base font-semibold text-center text-black rounded-full bg-orange-500 shadow-xs hover:bg-orange-600 transition-all duration-500"
+              className="inline-flex items-center justify-center py-3 px-7 text-white font-semibold text-center text-white rounded-full bg-orange-500 shadow-xs hover:bg-orange-600 transition-all duration-500"
             />
           </motion.div>
         </div>

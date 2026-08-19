@@ -5,6 +5,7 @@ import { ArrowRight, Clock, Calendar, Tag } from "lucide-react";
 import Footer from "../components/sections/Footer";
 import Navbar from "../components/Navbar";
 import WhatsAppButton from "../components/WhatsAppButton";
+import SplashCursor from "../components/ui/SplashCursor";
 
 const navItems = [
   {
@@ -113,6 +114,7 @@ export const blogPosts = [
 const BlogPage = () => {
   return (
     <div className="bg-black min-h-screen text-white">
+      <SplashCursor />
       <Navbar
         logoAlt="Qode Logo"
         items={navItems}

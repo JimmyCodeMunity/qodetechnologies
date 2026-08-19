@@ -183,7 +183,7 @@ const WebDevAd = () => {
             >
               <ServiceDialog
                 title="Start Your Web Project"
-                className="inline-flex items-center justify-center py-3 md:px-7 px-1 text-base font-semibold text-center text-black rounded-full bg-orange-500  shadow-xs hover:bg-orange-600 transition-all duration-500"
+                className="inline-flex items-center justify-center py-3 md:px-7 px-1 text-base font-semibold text-center text-white rounded-full bg-orange-500  shadow-xs hover:bg-orange-600 transition-all duration-500"
               />
               <Link
                 to="/services"

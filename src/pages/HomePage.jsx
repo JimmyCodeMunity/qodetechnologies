@@ -5,6 +5,7 @@ import MobileDevAd from "../components/sections/MobileDevAd";
 import WebDevAd from "../components/sections/WebDevAd";
 import ProjectsSection from "../components/sections/ProjectsSection";
 import WorkflowSection from "../components/sections/WorkflowSection";
+import QodeSolutions from "../components/sections/QodeSolutions";
 import SplashCursor from "../components/ui/SplashCursor";
 import Newsletter from "../components/Newsletter";
 import ContactSection from "../components/sections/ContactSection";
@@ -26,6 +27,7 @@ const HomePage = () => {
       <MobileDevAd />
       <WebDevAd />
       <ProjectsSection />
+      <QodeSolutions />
       {/* <MagicBento />
       <Testimonials /> */}
       {/* <Companies /> */}

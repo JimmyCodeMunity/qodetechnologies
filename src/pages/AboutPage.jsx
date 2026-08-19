@@ -17,11 +17,12 @@ import { AnimatedTooltipPreview } from "../components/ui/TeamTooltip";
 import Footer from "../components/sections/Footer";
 import Navbar from "../components/Navbar";
 import WhatsAppButton from "../components/WhatsAppButton";
+import SplashCursor from "../components/ui/SplashCursor";
 
 const stats = [
-  { value: "150+", label: "Projects Delivered" },
-  { value: "50+", label: "Happy Clients" },
-  { value: "12+", label: "Countries Served" },
+  { value: "40+", label: "Projects Delivered" },
+  { value: "30+", label: "Happy Clients" },
+  { value: "4+", label: "Countries Served" },
   { value: "98%", label: "Client Retention" },
 ];
 
@@ -94,6 +95,7 @@ const navItems = [
 const AboutPage = () => {
   return (
     <div className="bg-black min-h-screen text-white">
+      <SplashCursor />
       <Navbar
         logoAlt="Qode Logo"
         items={navItems}
@@ -305,7 +307,7 @@ const AboutPage = () => {
               breathe technology.
             </p>
           </motion.div>
-          <div className="flex justify-center">
+          <div className="flex justify-center items-center text-center w-full mx-auto">
             <AnimatedTooltipPreview />
           </div>
         </div>
@@ -379,7 +381,7 @@ const AboutPage = () => {
               <div className="flex items-center justify-center gap-4">
                 <ServiceDialog
                   title="Start a Project"
-                  className="inline-flex items-center justify-center py-3 px-7 text-base font-semibold text-center text-black rounded-full bg-lime-500 shadow-xs hover:bg-lime-600 transition-all duration-500"
+                  className="inline-flex items-center justify-center py-3 px-7 text-base font-semibold text-center text-white rounded-full bg-lime-500 shadow-xs hover:bg-lime-600 transition-all duration-500"
                 />
                 <Link
                   to="/blog"

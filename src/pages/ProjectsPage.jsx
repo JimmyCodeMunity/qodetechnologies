@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/sections/Footer";
 import WhatsAppButton from "../components/WhatsAppButton";
 import apiConfig from "../config/api";
+import SplashCursor from "../components/ui/SplashCursor";
 
 const navItems = [
   {
@@ -192,6 +193,7 @@ const ProjectsPage = () => {
 
   return (
     <div className="bg-black min-h-screen text-white">
+      <SplashCursor />
       <Navbar logoAlt="Qode Logo" items={navItems} baseColor="#fff" buttonBgColor="#84CC16" buttonTextColor="#000" />
 
       {/* Hero */}
@@ -303,7 +305,7 @@ const ProjectsPage = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 to="/services"
-                className="inline-flex items-center justify-center py-3 px-7 text-base font-semibold text-black rounded-full bg-lime-500 shadow-xs hover:bg-lime-600 transition-all duration-500"
+                className="inline-flex items-center justify-center py-3 px-7 text-base font-semibold text-white rounded-full bg-lime-500 shadow-xs hover:bg-lime-600 transition-all duration-500"
               >
                 Explore Services <ArrowRight size={18} className="ml-2" />
               </Link>
