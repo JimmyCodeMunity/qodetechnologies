@@ -20,7 +20,7 @@ const Services = () => {
           className="custom-spotlight- h-[300px] w-full space-y-5 p-4 border-1 border-neutral-600"
           spotlightColor="rgba(0, 229, 255, 0.2)"
         >
-          <SiCodechef size={40} color="white" />
+          <SiCodechef size={40} className="text-orange-500" />
           <h1 className="text-white text-2xl font-semibold">
             Software Development
           </h1>
@@ -32,7 +32,7 @@ const Services = () => {
           className="custom-spotlight- h-[300px] w-full space-y-5 p-4 border-1 border-neutral-600"
           spotlightColor="rgba(0, 229, 255, 0.2)"
         >
-          <SiHtml5 size={40} color="white" />
+          <SiHtml5 size={40} className="text-lime-500" />
           <h1 className="text-white text-2xl font-semibold">Web Development</h1>
           <p className="text-white text-sm">
             Blazing-fast, responsive web apps and platforms built with cutting-edge frameworks and best practices.
@@ -43,8 +43,8 @@ const Services = () => {
           spotlightColor="rgba(0, 229, 255, 0.2)"
         >
           <div className="flex flex-row items-center">
-            <SiIos size={40} color="white" />
-            <PlusIcon size={40} color="white" />
+            <SiIos size={40} className="text-orange-500" />
+            <PlusIcon size={40} className="text-lime-500" />
             <SiAndroid size={40} color="white" />
           </div>
           <h1 className="text-white text-2xl font-semibold">
@@ -58,7 +58,7 @@ const Services = () => {
           className="custom-spotlight- h-[300px] w-full space-y-5 p-4 border-1 border-neutral-600"
           spotlightColor="rgba(0, 229, 255, 0.2)"
         >
-          <SiAdobeillustrator size={40} color="white" />
+          <SiAdobeillustrator size={40} className="text-lime-500" />
           <h1 className="text-white text-2xl font-semibold">AI & Automation</h1>
           <p className="text-white text-sm">
             Smart AI agents, LLM integrations, and workflow automation that reduce costs and unlock new capabilities.
@@ -69,9 +69,9 @@ const Services = () => {
           spotlightColor="rgba(0, 229, 255, 0.2)"
         >
           <div className="flex flex-row items-center space-x-2">
-            <SiAppstore size={40} color="white" />
+            <SiAppstore size={40} className="text-orange-500" />
             <PlusIcon size={40} color="white" />
-            <SiGoogleplay size={40} color="white" />
+            <SiGoogleplay size={40} className="text-lime-500" />
           </div>
           <h1 className="text-white text-2xl font-semibold">App Deployment</h1>
           <p className="text-white text-sm">
@@ -82,7 +82,7 @@ const Services = () => {
           className="custom-spotlight- h-[300px] w-full space-y-5 p-4 border-1 border-neutral-600"
           spotlightColor="rgba(0, 229, 255, 0.2)"
         >
-          <SiGoogleclassroom size={40} color="white" />
+          <SiGoogleclassroom size={40} className="text-orange-500" />
           <h1 className="text-white text-2xl font-semibold">
             Learn Programming
           </h1>

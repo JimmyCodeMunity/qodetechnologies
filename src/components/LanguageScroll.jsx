@@ -1,54 +1,61 @@
 import React from "react";
 import InfiniteScroll from "./InfiniteScroll";
-import { HomeIcon, Phone } from "lucide-react";
-import { SiCoggle, SiHomeassistant } from "react-icons/si";
+import { BrainCircuitIcon, CloudLightning, DatabaseBackupIcon, HomeIcon, Phone, RabbitIcon, ShieldCheckIcon } from "lucide-react";
+import { SiCoggle, SiHomeassistant, SiHuggingface } from "react-icons/si";
+import { GoDeviceMobile } from "react-icons/go";
 
 const LanguageScroll = () => {
   const items = [
     {
+      border: 'border-orange-500',
       content: (
         <div className="flex flex-row items-center space-x-3">
-          <SiHomeassistant color="orange" size={25} />
+          <GoDeviceMobile color="orange" size={25} />
+          <p className="text-orange-500">Responsive</p>
+        </div>
+      ),
+    },
+    {
+      border: 'border-white',
+      content: (
+        <div className="flex flex-row items-center space-x-3">
+          <SiHuggingface color="white" size={25} />
+          <p className="text-white">Friendly</p>
+        </div>
+      ),
+    },
+    {
+      border: 'border-orange-500',
+      content: (
+        <div className="flex flex-row items-center space-x-3">
+          <CloudLightning color="#84CC16" size={25} />
+          <p className="text-lime-500">Fast & Efficient</p>
+        </div>
+      ),
+    },
+    {
+      border: 'border-lime-500',
+      content: (
+        <div className="flex flex-row items-center space-x-3">
+          <DatabaseBackupIcon color="orange" size={25} />
           <p className="text-orange-500">Scalable</p>
         </div>
       ),
     },
     {
+      border: 'border-orange-500',
       content: (
         <div className="flex flex-row items-center space-x-3">
-          <SiHomeassistant color="white" size={25} />
+          <ShieldCheckIcon color="white" size={25} />
           <p className="text-white">Secure</p>
         </div>
       ),
     },
     {
+      border: 'border-lime-500',
       content: (
         <div className="flex flex-row items-center space-x-3">
-          <SiCoggle color="#84CC16" size={25} />
-          <p className="text-lime-500">Efficient</p>
-        </div>
-      ),
-    },
-    {
-      content: (
-        <div className="flex flex-row items-center space-x-3">
-          <SiHomeassistant color="orange" size={25} />
-          <p className="text-orange-500">Scalable</p>
-        </div>
-      ),
-    },
-    {
-      content: (
-        <div className="flex flex-row items-center space-x-3">
-          <SiHomeassistant color="white" size={25} />
-          <p className="text-white">Secure</p>
-        </div>
-      ),
-    },
-    {
-      content: (
-        <div className="flex flex-row items-center space-x-3">
-          <SiHomeassistant color="#84CC16" size={25} />
+          <BrainCircuitIcon color="#84CC16" size={25} />
           <p className="text-lime-500">Innovative</p>
         </div>
       ),

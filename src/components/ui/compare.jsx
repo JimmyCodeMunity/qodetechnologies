@@ -7,7 +7,7 @@ import { cn } from "../../lib/utils";
 import { SparklesCore } from "./particles";
 
 export const Compare = ({
-  firstImage = "../images/verification.png",
+  firstImage = "../images/snippet.png",
   secondImage = "../images/dash.png",
   className,
   firstImageClassName,
@@ -121,7 +121,7 @@ export const Compare = ({
   return (
     (<div
       ref={sliderRef}
-      className={cn("w-full md:h-[800px] border border-neutral-700 overflow-hidden rounded-2xl h-[300px] overflow-hidden", className)}
+      className={cn("w-full md:h-[800px] border border-neutral-800 overflow-hidden rounded-2xl h-[300px] overflow-hidden", className)}
       style={{
         position: "relative",
         cursor: slideMode === "drag" ? "grab" : "col-resize",

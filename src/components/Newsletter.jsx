@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { ArrowRight, CheckCircle2, Mail } from "lucide-react";
+import { CheckCircle2, Mail } from "lucide-react";
+import CurvedInput from "./ui/CurvedInput";
 
 const Newsletter = () => {
   const [submitted, setSubmitted] = useState(false);
   const [email, setEmail] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Newsletter subscription:", email);
+  const handleSubmit = (value) => {
+    const trimmed = (value ?? email).trim();
+    if (!trimmed) return;
+    console.log("Newsletter subscription:", trimmed);
     setSubmitted(true);
     setEmail("");
     setTimeout(() => setSubmitted(false), 4000);
@@ -51,22 +51,31 @@ const Newsletter = () => {
               <CheckCircle2 size={18} /> Subscribed successfully!
             </motion.div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-center gap-3 max-w-lg mx-auto">
-              <Input
-                type="email"
-                placeholder="Enter your email address"
+            <div className="max-w-lg mx-auto">
+              <CurvedInput
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full sm:flex-1 rounded-full py-3 px-5"
-                required
+                onChange={setEmail}
+                onSubmit={handleSubmit}
+                placeholder="Enter your email address"
+                buttonText="Subscribe"
+                type="email"
+                showButton
+                showIcon
+                width="100%"
+                bend={28}
+                height={64}
+                cornerRadius={18}
+                borderWidth={1.5}
+                fontSize={15}
+                backgroundColor="#0a0a0a"
+                textColor="#f5f5f5"
+                placeholderColor="#525252"
+                borderColor="#262626"
+                buttonColor="#84CC16"
+                buttonTextColor="#000000"
+                shadowSize="md"
               />
-              <Button
-                type="submit"
-                className="w-full sm:w-auto py-3 px-6 h-auto rounded-full bg-lime-500 text-black font-semibold hover:bg-lime-600 transition-all duration-300"
-              >
-                Subscribe <ArrowRight size={16} className="ml-1" />
-              </Button>
-            </form>
+            </div>
           )}
 
           <p className="text-neutral-600 text-xs mt-4">

@@ -267,7 +267,7 @@ const ServiceDialog = ({ title, className }) => {
                           placeholder="First Name *"
                           value={formData.firstName}
                           onChange={(e) => updateField("firstName", e.target.value)}
-                          className={`w-full ${errors.firstName ? "border-red-500" : ""}`}
+                          className={`w-full rounded-xl ${errors.firstName ? "border-red-500" : ""}`}
                         />
                         {errors.firstName && <p className="text-red-400 text-xs mt-1">{errors.firstName}</p>}
                       </div>
@@ -277,7 +277,7 @@ const ServiceDialog = ({ title, className }) => {
                           placeholder="Last Name *"
                           value={formData.lastName}
                           onChange={(e) => updateField("lastName", e.target.value)}
-                          className={`w-full ${errors.lastName ? "border-red-500" : ""}`}
+                          className={`w-full rounded-xl ${errors.lastName ? "border-red-500" : ""}`}
                         />
                         {errors.lastName && <p className="text-red-400 text-xs mt-1">{errors.lastName}</p>}
                       </div>
@@ -288,7 +288,7 @@ const ServiceDialog = ({ title, className }) => {
                         placeholder="Email Address *"
                         value={formData.email}
                         onChange={(e) => updateField("email", e.target.value)}
-                        className={`w-full ${errors.email ? "border-red-500" : ""}`}
+                        className={`w-full rounded-xl ${errors.email ? "border-red-500" : ""}`}
                       />
                       {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
                     </div>
@@ -298,14 +298,14 @@ const ServiceDialog = ({ title, className }) => {
                         placeholder="Phone Number"
                         value={formData.phone}
                         onChange={(e) => updateField("phone", e.target.value)}
-                        className="w-full"
+                        className="w-full rounded-xl"
                       />
                       <Input
                         type="text"
                         placeholder="Company (Optional)"
                         value={formData.company}
                         onChange={(e) => updateField("company", e.target.value)}
-                        className="w-full"
+                        className="w-full rounded-xl"
                       />
                     </div>
                   </div>
@@ -358,7 +358,7 @@ const ServiceDialog = ({ title, className }) => {
                         placeholder="Project Title *"
                         value={formData.projectTitle}
                         onChange={(e) => updateField("projectTitle", e.target.value)}
-                        className={`w-full ${errors.projectTitle ? "border-red-500" : ""}`}
+                        className={`w-full rounded-xl ${errors.projectTitle ? "border-red-500" : ""}`}
                       />
                       {errors.projectTitle && <p className="text-red-400 text-xs mt-1">{errors.projectTitle}</p>}
                     </div>
@@ -382,7 +382,7 @@ const ServiceDialog = ({ title, className }) => {
                       <select
                         value={formData.budget}
                         onChange={(e) => updateField("budget", e.target.value)}
-                        className="w-full bg-neutral-900 border border-neutral-700 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-lime-500/50"
+                        className="w-full rounded-xl bg-neutral-900 border border-neutral-700 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-lime-500/50"
                       >
                         <option value="">Budget Range (Optional)</option>
                         {budgetRanges.map(range => (
@@ -392,7 +392,7 @@ const ServiceDialog = ({ title, className }) => {
                       <select
                         value={formData.timeline}
                         onChange={(e) => updateField("timeline", e.target.value)}
-                        className="w-full bg-neutral-900 border border-neutral-700 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-lime-500/50"
+                        className="w-full rounded-xl bg-neutral-900 border border-neutral-700 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-lime-500/50"
                       >
                         <option value="">Timeline (Optional)</option>
                         {timelines.map(t => (
@@ -432,7 +432,7 @@ const ServiceDialog = ({ title, className }) => {
                       placeholder="Preferred Technologies (Optional) - e.g., React, Node.js, Python"
                       value={formData.preferredTechnologies}
                       onChange={(e) => updateField("preferredTechnologies", e.target.value)}
-                      className="w-full"
+                      className="w-full rounded-xl"
                     />
 
                     <Text

@@ -19,10 +19,12 @@ const Languages = () => {
           <p className="text-neutral-500">
             Our engineers specialize in modern languages and frameworks — from React and Next.js to Python, Go, and AI/ML. We modernize legacy systems and build scalable architectures that grow with you.
           </p>
-          <AnimatedTooltipPreview />
+          <div className="flex justify-start items-start">
+            <AnimatedTooltipPreview />
+          </div>
           <ServiceDialog
             title="Request for a service"
-            className="bg-lime-500"
+            className="bg-lime-500 text-white rounded-3xl"
           />
         </div>
       </div>

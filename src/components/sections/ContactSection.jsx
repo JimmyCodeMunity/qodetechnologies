@@ -11,8 +11,8 @@ const contactInfo = [
   {
     icon: <Mail size={20} className="text-lime-500" />,
     label: "Email",
-    value: "hello@qodenow.com",
-    href: "mailto:hello@qodenow.com",
+    value: "qode.current@gmail.com",
+    href: "mailto:qode.current@gmail.com",
   },
   {
     icon: <Phone size={20} className="text-orange-500" />,
